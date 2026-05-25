@@ -11,7 +11,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
 <img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/507fef12-04a7-447b-adf3-12abfd5d1d52" />
 <img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/4b627db9-6521-4e25-9050-d9da08a05f6b" />
 
-This repository is used to [report issues](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues).
+Report the problem here > [report issues](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues).
 
 ---
 
