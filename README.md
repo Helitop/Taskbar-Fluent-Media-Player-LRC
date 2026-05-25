@@ -1,4 +1,7 @@
 # Taskbar Fluent Media Player
+Embeds a Fluent Design media player inside the Windows 11 taskbar.
+
+---
 
 This mod is currently in beta testing. Some features may be unstable, may not work correctly, or may change in future updates. During use, errors, crashes, conflicts with other mods, or unexpected system behavior may occur.
 
@@ -8,6 +11,12 @@ By installing and using this mod, you do so at your own risk. The author is not 
 <img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/507fef12-04a7-447b-adf3-12abfd5d1d52" />
 <img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/4b627db9-6521-4e25-9050-d9da08a05f6b" />
 
+### This repository is used to [report issues](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues)
 
+---
 
-Author- [@Salyts](https://github.com/Salyts)
+Author - [@Salyts](https://github.com/Salyts)
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
