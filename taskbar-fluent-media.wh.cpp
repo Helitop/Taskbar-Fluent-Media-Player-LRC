@@ -1,7 +1,8 @@
 // ==WindhawkMod==
 // @id              taskbar-fluent-media-player
 // @name            Taskbar Fluent Media Player
-// @version         0.1.0-beta
+// @description     Embeds a Fluent Design media player inside the Windows 11 taskbar.
+// @version         0.2.0-beta
 // @author          Salyts
 // @github          https://github.com/Salyts
 // @include         explorer.exe
@@ -17,7 +18,6 @@ Embeds a Fluent Design media player inside the Windows 11 taskbar.
 This mod is currently in beta testing. Some features may be unstable, may not work correctly, or may change in future updates. During use, errors, crashes, conflicts with other mods, or unexpected system behavior may occur.
 
 By installing and using this mod, you do so at your own risk. The author is not responsible for any possible consequences, including data loss, system instability, software conflicts, or other issues arising from the use of the mod.
-
 
 */
 // ==/WindhawkModReadme==
@@ -46,33 +46,38 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - "taskbar_after_widgets_right": "Taskbar - Widgets button - Right"
     - "taskbar_left_edge": "Taskbar - far edge (Overlay) - Left"
     - "taskbar_right_edge": "Taskbar - far edge (Overlay) - Right"
-  - playerMarginLeft: 0
-    $name: Player left margin (px)
-  - playerMarginRight: 0
-    $name: Player right margin (px)
-  - mirrorLayout: false
-    $name: Mirror layout (flip album art, text, and buttons to opposite sides)
-  - mediaButtonsLeftMargin: 0
-    $name: Media buttons left margin (px)
-  - mediaButtonsRightMargin: 1
-    $name: Media buttons right margin (px)
+  - playerMargin: "5 5"
+    $name: Player margin (left right, px)
   $name: Position Settings
 
 - DisplaySettings:
+  - mirrorLayout: false
+    $name: Mirror layout (flip album art, text, and buttons to opposite sides)
+  - mediaButtonsMargin: "5 5"
+    $name: Media buttons margin (left right, px)
   - showTrackTitle: true
     $name: Show track title
   - showTrackArtist: true
     $name: Show artist name
   - showAlbumArt: true
     $name: Show album art
-  - hideAlbumArtWhenEmpty: false
-    $name: Hide album art area when no cover available
+  - albumArtEmptyBehavior: "show"
+    $name: Album art behavior when no cover available
+    $options:
+    - "show": "Show area (default)"
+    - "hide": "Hide area"
+    - "show_question": "Show area with question mark"
+    - "show_note": "Show area with music note"
+  - showPauseOverlay: false
+    $name: Show pause icon overlay on album art when paused
   - showPrevButton: true
     $name: Show Previous button
   - showPlayButton: true
     $name: Show Play/Pause button
   - showNextButton: true
     $name: Show Next button
+  - fillButtonIcons: false
+    $name: Fill button icons (solid instead of outline)
   - showAppIcon: false
     $name: Show media app icon overlay
   - appIconCorner: "bottom_right"
@@ -84,10 +89,8 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - "bottom_right": "Bottom right"
   - appIconSize: 12
     $name: App icon size (px)
-  - playerMinWidth: 80
-    $name: Player minimum width (px)
-  - playerMaxWidth: 320
-    $name: Player maximum width (px)
+  - playerWidth: "0 280"
+    $name: Player width (min max, px, 0 = no limit)
   - playerHeight: 40
     $name: Player height (px)
   $name: Display Settings
@@ -110,7 +113,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - "mica_alt":   "Mica Alt"
     - "album_art":  "Album art"
     - "album_art_blur": "Album art - Blur"
-  - backgroundOpacity: 0
+  - backgroundOpacity: 100
     $name: Background opacity (0-100, for solid color)
   - backgroundColor: "32 32 32"
     $name: Background color (R G B 0-255)
@@ -122,17 +125,15 @@ By installing and using this mod, you do so at your own risk. The author is not 
     $name: Album art opacity (0-100)
   - albumArtCornerRadius: 4
     $name: Album art corner radius (px)
-  - albumArtLeftMargin: 2
-    $name: Album art left margin (px)
-  - albumArtRightMargin: 0
-    $name: Album art right margin (px)
-  - textMargin: 5
-    $name: Text left margin (px)
-  - controlsMargin: 4
-    $name: Controls right margin (px)
+  - albumArtMargin: "0 0"
+    $name: Album art margin (left right, px)
+  - textMargin: "5 5"
+    $name: Text margin (left right, px)
+  - controlsMargin: "0 0"
+    $name: Controls margin (left right, px)
   - buttonSpacing: 0
     $name: Spacing between media buttons (px)
-  - buttonCornerRadius: 14
+  - buttonCornerRadius: 7
     $name: Media button corner radius (px)
   - titleFontSize: 12
     $name: Title font size (pt)
@@ -149,7 +150,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
   $name: Appearance Settings
 
 - BehaviorSettings:
-  - albumArtLeftClick: "none"
+  - albumArtLeftClick: "play_pause"
     $name: Album art - Left click
     $options:
     - "none": "Nothing"
@@ -197,7 +198,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
   - albumArtWheelAction: "switch_tracks"
     $name: Album art - Mouse wheel
     $options:
-    - "none": "Nothing"
+    - "none": "switch_sessions"
     - "switch_tracks": "Switch tracks (up=prev, down=next)"
     - "switch_sessions": "Switch sessions (up/down)"
   - playerLeftClick: "none"
@@ -245,7 +246,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - "next_track": "Next track"
     - "prev_track": "Previous track"
     - "stop": "Stop playback"
-  - playerWheelAction: "switch_sessions"
+  - playerWheelAction: "switch_tracks"
     $name: Player - Mouse wheel
     $options:
     - "none": "Nothing"
@@ -283,6 +284,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
 #include <winrt/Windows.UI.Xaml.Media.Imaging.h>
 #include <winrt/Windows.UI.Xaml.Shapes.h>
 #include <winrt/Windows.UI.Xaml.Input.h>
+#include <winrt/Windows.UI.Xaml.Automation.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.Media.Control.h>
 #include <winrt/Windows.Storage.Streams.h>
@@ -330,7 +332,8 @@ struct ModSettings {
     int          playerMaxWidth       = 400;
     int          playerHeight         = 40;
     bool         showAlbumArt         = true;
-    bool         hideAlbumArtWhenEmpty = false;
+    std::wstring albumArtEmptyBehavior = L"show";
+    bool         showPauseOverlay     = true;
     int          albumArtSize         = 30;
     int          albumArtOpacity      = 100;
     int          albumArtLeftMargin   = 2;
@@ -340,14 +343,17 @@ struct ModSettings {
     bool         showPrevButton       = true;
     bool         showPlayButton       = true;
     bool         showNextButton       = true;
+    bool         fillButtonIcons      = false;
     bool         showAppIcon          = false;
     std::wstring appIconCorner        = L"bottom_right";
     int          appIconSize          = 12;
     bool         hideWhenNoMedia      = true;
-    int          textMargin           = 5;
-    int          controlsMargin       = 4;
-    int          playerMarginLeft     = 4;
-    int          playerMarginRight    = 4;
+    int          textMarginLeft       = 5;
+    int          textMarginRight      = 0;
+    int          controlsMarginLeft   = 4;
+    int          controlsMarginRight  = 0;
+    int          playerMarginLeft     = 0;
+    int          playerMarginRight    = 0;
     int          mediaButtonsLeftMargin  = 0;
     int          mediaButtonsRightMargin = 1;
     bool         hideFullscreen       = true;
@@ -383,26 +389,35 @@ static void LoadSettings() {
         if (v == 0 && def != 0) v = def;
         return std::clamp(v, lo, hi);
     };
+    auto ParseMargin = [&Str](const wchar_t* key, const wchar_t* def, int& left, int& right) {
+        std::wstring val = Str(key, def);
+        size_t space = val.find(L' ');
+        if (space != std::wstring::npos) {
+            left = std::stoi(val.substr(0, space));
+            right = std::stoi(val.substr(space + 1));
+        } else {
+            left = right = std::stoi(val);
+        }
+    };
 
     g_settings.position             = Str(L"PositionSettings.position",    L"tray_right");
-    g_settings.playerMarginLeft     = Wh_GetIntSetting(L"PositionSettings.playerMarginLeft");
-    g_settings.playerMarginRight    = Wh_GetIntSetting(L"PositionSettings.playerMarginRight");
-    g_settings.mirrorLayout         = Wh_GetIntSetting(L"PositionSettings.mirrorLayout") != 0;
-    g_settings.mediaButtonsLeftMargin  = Wh_GetIntSetting(L"PositionSettings.mediaButtonsLeftMargin");
-    g_settings.mediaButtonsRightMargin = Int(L"PositionSettings.mediaButtonsRightMargin", -1000, 1000, 1);
+    ParseMargin(L"PositionSettings.playerMargin", L"0 0", g_settings.playerMarginLeft, g_settings.playerMarginRight);
 
+    g_settings.mirrorLayout         = Wh_GetIntSetting(L"DisplaySettings.mirrorLayout") != 0;
+    ParseMargin(L"DisplaySettings.mediaButtonsMargin", L"0 1", g_settings.mediaButtonsLeftMargin, g_settings.mediaButtonsRightMargin);
     g_settings.showTrackTitle       = Wh_GetIntSetting(L"DisplaySettings.showTrackTitle")    != 0;
     g_settings.showTrackArtist      = Wh_GetIntSetting(L"DisplaySettings.showTrackArtist")   != 0;
     g_settings.showAlbumArt         = Wh_GetIntSetting(L"DisplaySettings.showAlbumArt")      != 0;
-    g_settings.hideAlbumArtWhenEmpty = Wh_GetIntSetting(L"DisplaySettings.hideAlbumArtWhenEmpty") != 0;
+    g_settings.albumArtEmptyBehavior = Str(L"DisplaySettings.albumArtEmptyBehavior", L"show");
+    g_settings.showPauseOverlay     = Wh_GetIntSetting(L"DisplaySettings.showPauseOverlay")  != 0;
     g_settings.showPrevButton       = Wh_GetIntSetting(L"DisplaySettings.showPrevButton")    != 0;
     g_settings.showPlayButton       = Wh_GetIntSetting(L"DisplaySettings.showPlayButton")    != 0;
     g_settings.showNextButton       = Wh_GetIntSetting(L"DisplaySettings.showNextButton")    != 0;
+    g_settings.fillButtonIcons      = Wh_GetIntSetting(L"DisplaySettings.fillButtonIcons")   != 0;
     g_settings.showAppIcon          = Wh_GetIntSetting(L"DisplaySettings.showAppIcon")       != 0;
     g_settings.appIconCorner        = Str(L"DisplaySettings.appIconCorner",  L"bottom_right");
     g_settings.appIconSize          = Int(L"DisplaySettings.appIconSize",         8,  32,  12);
-    g_settings.playerMinWidth       = Int(L"DisplaySettings.playerMinWidth",     120, 600, 200);
-    g_settings.playerMaxWidth       = Int(L"DisplaySettings.playerMaxWidth",     120, 600, 400);
+    ParseMargin(L"DisplaySettings.playerWidth", L"80 320", g_settings.playerMinWidth, g_settings.playerMaxWidth);
     g_settings.playerHeight         = Int(L"DisplaySettings.playerHeight",        20,  80,  40);
 
     g_settings.theme                = Str(L"AppearanceSettings.theme",          L"auto");
@@ -413,10 +428,9 @@ static void LoadSettings() {
     g_settings.albumArtSize         = Int(L"AppearanceSettings.albumArtSize",         16,  60,  30);
     g_settings.albumArtOpacity      = Int(L"AppearanceSettings.albumArtOpacity",       0, 100, 100);
     g_settings.albumArtCornerRadius = Int(L"AppearanceSettings.albumArtCornerRadius",  0,  24,   4);
-    g_settings.albumArtLeftMargin   = Wh_GetIntSetting(L"AppearanceSettings.albumArtLeftMargin");
-    g_settings.albumArtRightMargin  = Wh_GetIntSetting(L"AppearanceSettings.albumArtRightMargin");
-    g_settings.textMargin           = Wh_GetIntSetting(L"AppearanceSettings.textMargin");
-    g_settings.controlsMargin       = Wh_GetIntSetting(L"AppearanceSettings.controlsMargin");
+    ParseMargin(L"AppearanceSettings.albumArtMargin", L"2 0", g_settings.albumArtLeftMargin, g_settings.albumArtRightMargin);
+    ParseMargin(L"AppearanceSettings.textMargin", L"5 0", g_settings.textMarginLeft, g_settings.textMarginRight);
+    ParseMargin(L"AppearanceSettings.controlsMargin", L"4 0", g_settings.controlsMarginLeft, g_settings.controlsMarginRight);
     g_settings.buttonSpacing        = Wh_GetIntSetting(L"AppearanceSettings.buttonSpacing");
     g_settings.buttonCornerRadius   = Int(L"AppearanceSettings.buttonCornerRadius",   0,  24,  14);
     g_settings.titleFontSize        = Int(L"AppearanceSettings.titleFontSize",         7,  24,  12);
@@ -576,7 +590,7 @@ static bool IsSystemLightTheme() {
     DWORD v = 0, sz = sizeof(v);
     RegGetValueW(HKEY_CURRENT_USER,
         L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-        L"SystemUsesLightTheme", RRF_RT_DWORD, nullptr, &v, &sz);
+        L"AppsUseLightTheme", RRF_RT_DWORD, nullptr, &v, &sz);
     return v != 0;
 }
 static bool IsLightTheme() {
@@ -1208,12 +1222,38 @@ static void UpdateVisibility();
 
 static DWORD WINAPI TimerThreadProc(void*) {
     LOG(L"Timer thread start");
+    static bool lastThemeWasLight = IsSystemLightTheme();
+
+    HKEY hKey = nullptr;
+    HANDLE hEvent = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+    if (RegOpenKeyExW(HKEY_CURRENT_USER,
+                      L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+                      0, KEY_NOTIFY, &hKey) == ERROR_SUCCESS) {
+        RegNotifyChangeKeyValue(hKey, FALSE, REG_NOTIFY_CHANGE_LAST_SET, hEvent, TRUE);
+    }
+
     while (!g_unloading) {
-        if (WaitForSingleObject(g_timerStopEvent, 100) == WAIT_OBJECT_0) break;
+        HANDLE handles[] = {g_timerStopEvent, hEvent};
+        DWORD wait = WaitForMultipleObjects(2, handles, FALSE, 100);
+
+        if (wait == WAIT_OBJECT_0) break;
         if (g_applyingSettings) continue;
 
         HWND hWnd = g_taskbarWnd;
         if (!hWnd) continue;
+
+        if (wait == WAIT_OBJECT_0 + 1 || g_settings.theme == L"auto") {
+            bool currentThemeIsLight = IsSystemLightTheme();
+            if (currentThemeIsLight != lastThemeWasLight) {
+                lastThemeWasLight = currentThemeIsLight;
+                g_needsUiUpdate = true;
+                LOG(L"Theme changed, updating UI");
+            }
+
+            if (hKey && wait == WAIT_OBJECT_0 + 1) {
+                RegNotifyChangeKeyValue(hKey, FALSE, REG_NOTIFY_CHANGE_LAST_SET, hEvent, TRUE);
+            }
+        }
 
         bool needsUpdate = g_needsUiUpdate.exchange(false);
         if (needsUpdate) {
@@ -1225,6 +1265,9 @@ static DWORD WINAPI TimerThreadProc(void*) {
             }, nullptr);
         }
     }
+
+    if (hKey) RegCloseKey(hKey);
+    if (hEvent) CloseHandle(hEvent);
     LOG(L"Timer thread exit");
     return 0;
 }
@@ -1458,8 +1501,17 @@ static Button MakeControlButton(int cmd, bool isPlaying, winrt::Windows::UI::Col
         btn.HorizontalAlignment(HorizontalAlignment::Center);
 
         const wchar_t* glyph = L"\uE892";
-        if      (cmd == 2) glyph = isPlaying ? L"\uE769" : L"\uE768";
-        else if (cmd == 3) glyph = L"\uE893";
+        if (cmd == 1) {
+            glyph = g_settings.fillButtonIcons ? L"" : L""; // Prev: filled F8AC / outline E892
+        } else if (cmd == 2) {
+            if (isPlaying) {
+                glyph = g_settings.fillButtonIcons ? L"" : L""; // Pause: filled F8AE / outline E769
+            } else {
+                glyph = g_settings.fillButtonIcons ? L"" : L""; // Play: filled F5B0 / outline E768
+            }
+        } else if (cmd == 3) {
+            glyph = g_settings.fillButtonIcons ? L"" : L""; // Next: filled F8AD / outline E893
+        }
 
         btn.Content(winrt::box_value(MakeIconText(glyph, 12.0, iconColor)));
         btn.Click([cmd](auto const&, auto const&) {
@@ -1513,11 +1565,20 @@ static Grid BuildPlayerGrid() {
         double cr    = (double)g_settings.cornerRadius;
         double ph    = (double)g_settings.playerHeight;
 
+        bool hasTextOrButtons = g_settings.showTrackTitle || g_settings.showTrackArtist ||
+                                g_settings.showPrevButton || g_settings.showPlayButton || g_settings.showNextButton;
+
         Border outerBorder;
         outerBorder.Name(L"FluentMedia_OuterBorder");
         outerBorder.CornerRadius({cr,cr,cr,cr});
         outerBorder.Background(bgBrush);
-        outerBorder.Padding({4,2,4,2});
+
+        if (hasTextOrButtons) {
+            outerBorder.Padding({4,2,4,2});
+        } else {
+            outerBorder.Padding({0,0,0,0});
+        }
+
         outerBorder.VerticalAlignment(VerticalAlignment::Center);
         outerBorder.Height(ph);
 
@@ -1542,7 +1603,13 @@ static Grid BuildPlayerGrid() {
 
         ColumnDefinition colFirst, colText, colLast;
         colFirst.Width({1.0, GridUnitType::Auto});
-        colText.Width({1.0, GridUnitType::Star});
+
+        if (g_settings.showTrackTitle || g_settings.showTrackArtist) {
+            colText.Width({1.0, GridUnitType::Star});
+        } else {
+            colText.Width({1.0, GridUnitType::Auto});
+        }
+
         colLast.Width({1.0, GridUnitType::Auto});
         panel.ColumnDefinitions().Append(colFirst);
         panel.ColumnDefinitions().Append(colText);
@@ -1558,7 +1625,13 @@ static Grid BuildPlayerGrid() {
             artContainer = Grid();
             artContainer.Width(artSz); artContainer.Height(artSz);
             artContainer.VerticalAlignment(VerticalAlignment::Center);
-            artContainer.Margin({(double)g_settings.albumArtLeftMargin, 0, (double)g_settings.albumArtRightMargin, 0});
+
+            if (hasTextOrButtons) {
+                artContainer.Margin({(double)g_settings.albumArtLeftMargin, 0, (double)g_settings.albumArtRightMargin, 0});
+            } else {
+                artContainer.Margin({0, 0, 0, 0});
+            }
+
             artContainer.Opacity(g_settings.albumArtOpacity / 100.0);
             artContainer.Background(MakeBrush({0x00,0x00,0x00,0x00}));
 
@@ -1632,6 +1705,28 @@ static Grid BuildPlayerGrid() {
                 artContainer.Children().Append(iconOverlay);
             }
 
+            if (g_settings.showPauseOverlay) {
+                Border pauseBorder;
+                pauseBorder.Name(L"PauseIconOverlay");
+                pauseBorder.Width(artSz);
+                pauseBorder.Height(artSz);
+                pauseBorder.CornerRadius({acr, acr, acr, acr});
+                pauseBorder.Background(MakeBrush({0x80, 0x00, 0x00, 0x00}));
+                pauseBorder.Visibility(Visibility::Collapsed);
+                Canvas::SetZIndex(pauseBorder, 10);
+
+                TextBlock pauseIcon;
+                pauseIcon.Text(L"");
+                pauseIcon.FontFamily(Media::FontFamily(L"Segoe MDL2 Assets"));
+                pauseIcon.FontSize(artSz * 0.5);
+                pauseIcon.Foreground(MakeBrush({0xFF, 0xFF, 0xFF, 0xFF}));
+                pauseIcon.HorizontalAlignment(HorizontalAlignment::Center);
+                pauseIcon.VerticalAlignment(VerticalAlignment::Center);
+
+                pauseBorder.Child(pauseIcon);
+                artContainer.Children().Append(pauseBorder);
+            }
+
             artContainer.Tapped([](winrt::Windows::Foundation::IInspectable const&, winrt::Windows::UI::Xaml::Input::TappedRoutedEventArgs const& e) {
                 if (g_unloading) return;
                 ExecuteMediaAction(g_settings.albumArtLeftClick);
@@ -1688,7 +1783,7 @@ static Grid BuildPlayerGrid() {
         if (g_settings.showTrackTitle || g_settings.showTrackArtist) {
             Border clipBorder;
             clipBorder.VerticalAlignment(VerticalAlignment::Center);
-            clipBorder.Margin({(double)g_settings.textMargin, 0, 0, 0});
+            clipBorder.Margin({(double)g_settings.textMarginLeft, 0, (double)g_settings.textMarginRight, 0});
 
             if (g_settings.showDebugBorders) {
                 clipBorder.BorderBrush(MakeBrush({0xFF, 0x00, 0xFF, 0xFF}));
@@ -1702,22 +1797,25 @@ static Grid BuildPlayerGrid() {
             textStack.HorizontalAlignment(g_settings.mirrorLayout ? HorizontalAlignment::Right : HorizontalAlignment::Left);
             textStack.Spacing((double)g_settings.textSpacing);
 
-            TextBlock titleBlock;
-            titleBlock.Name(kTitleBlockName);
-            titleBlock.FontSize((double)g_settings.titleFontSize);
-            titleBlock.Foreground(MakeBrush(textClr));
-            titleBlock.TextWrapping(TextWrapping::NoWrap);
-            titleBlock.TextAlignment(g_settings.mirrorLayout ? TextAlignment::Right : TextAlignment::Left);
+            if (g_settings.showTrackTitle) {
+                TextBlock titleBlock;
+                titleBlock.Name(kTitleBlockName);
+                titleBlock.FontSize((double)g_settings.titleFontSize);
+                titleBlock.Foreground(MakeBrush(textClr));
+                titleBlock.TextWrapping(TextWrapping::NoWrap);
+                titleBlock.TextAlignment(g_settings.mirrorLayout ? TextAlignment::Right : TextAlignment::Left);
+                textStack.Children().Append(titleBlock);
+            }
 
-            TextBlock artistBlock;
-            artistBlock.Name(kArtistBlockName);
-            artistBlock.FontSize((double)g_settings.artistFontSize);
-            artistBlock.Foreground(MakeBrush(artistClr));
-            artistBlock.TextWrapping(TextWrapping::NoWrap);
-            artistBlock.TextAlignment(g_settings.mirrorLayout ? TextAlignment::Right : TextAlignment::Left);
-
-            textStack.Children().Append(titleBlock);
-            textStack.Children().Append(artistBlock);
+            if (g_settings.showTrackArtist) {
+                TextBlock artistBlock;
+                artistBlock.Name(kArtistBlockName);
+                artistBlock.FontSize((double)g_settings.artistFontSize);
+                artistBlock.Foreground(MakeBrush(artistClr));
+                artistBlock.TextWrapping(TextWrapping::NoWrap);
+                artistBlock.TextAlignment(g_settings.mirrorLayout ? TextAlignment::Right : TextAlignment::Left);
+                textStack.Children().Append(artistBlock);
+            }
 
             clipBorder.Child(textStack);
 
@@ -1740,7 +1838,11 @@ static Grid BuildPlayerGrid() {
             ctrlPanel.Spacing((double)g_settings.buttonSpacing);
             ctrlPanel.VerticalAlignment(VerticalAlignment::Center);
             ctrlPanel.HorizontalAlignment(buttonsLeft ? HorizontalAlignment::Left : HorizontalAlignment::Right);
-            ctrlPanel.Margin({(double)g_settings.mediaButtonsLeftMargin, 0, (double)g_settings.mediaButtonsRightMargin, 0});
+
+            bool hasButtons = g_settings.showPrevButton || g_settings.showPlayButton || g_settings.showNextButton;
+            if (hasButtons) {
+                ctrlPanel.Margin({(double)g_settings.mediaButtonsLeftMargin, 0, (double)g_settings.mediaButtonsRightMargin, 0});
+            }
 
             if (g_settings.showDebugBorders) {
                 Border ctrlDebugBorder;
@@ -1773,7 +1875,10 @@ static Grid BuildPlayerGrid() {
             } else {
                 Grid::SetColumn(ctrlPanel, 2);
             }
-            panel.Children().Append(ctrlPanel);
+
+            if (hasButtons) {
+                panel.Children().Append(ctrlPanel);
+            }
         }
 
         outerBorder.Child(panel);
@@ -1782,8 +1887,15 @@ static Grid BuildPlayerGrid() {
         wrapper.Name(kGridName);
         wrapper.VerticalAlignment(VerticalAlignment::Stretch);
         wrapper.HorizontalAlignment(HorizontalAlignment::Left);
-        wrapper.MinWidth((double)g_settings.playerMinWidth);
-        wrapper.MaxWidth((double)g_settings.playerMaxWidth);
+
+        if (hasTextOrButtons && g_settings.playerMinWidth > 0) {
+            wrapper.MinWidth((double)g_settings.playerMinWidth);
+        }
+
+        if (g_settings.playerMaxWidth > 0) {
+            wrapper.MaxWidth((double)g_settings.playerMaxWidth);
+        }
+
         wrapper.Background(MakeBrush({0x00,0,0,0}));
         wrapper.Children().Append(outerBorder);
 
@@ -2044,6 +2156,43 @@ static FrameworkElement FindLastElementByClassName(FrameworkElement const& paren
     return lastFound;
 }
 
+static bool IsStartButtonModActive(FrameworkElement const& root) {
+    try {
+        auto rootGrid = FindTaskbarRootGrid(root);
+        if (!rootGrid) return false;
+
+        auto repeater = FindChildByName(rootGrid, L"TaskbarFrameRepeater");
+        if (!repeater) return false;
+
+        static const wchar_t* kStartNames[] = {L"StartButton"};
+        auto startButton = FindElementInRepeater(repeater, kStartNames, 1);
+        if (!startButton) return false;
+
+        auto margin = startButton.Margin();
+        return margin.Right < -10.0;
+    } catch (...) {
+        return false;
+    }
+}
+
+static double GetStartButtonAdjustment(FrameworkElement const& root) {
+    try {
+        auto rootGrid = FindTaskbarRootGrid(root);
+        if (!rootGrid) return 0.0;
+
+        auto repeater = FindChildByName(rootGrid, L"TaskbarFrameRepeater");
+        if (!repeater) return 0.0;
+
+        static const wchar_t* kStartNames[] = {L"StartButton"};
+        auto startButton = FindElementInRepeater(repeater, kStartNames, 1);
+        if (!startButton) return 0.0;
+
+        return startButton.ActualWidth();
+    } catch (...) {
+        return 0.0;
+    }
+}
+
 static InjectionTarget ResolveInjectionTarget(
     FrameworkElement const& root,
     std::wstring_view position)
@@ -2168,6 +2317,11 @@ static bool InjectPlayerGrid() {
         Grid playerGrid = BuildPlayerGrid();
         if (!playerGrid) return false;
 
+        bool startButtonModActive = IsStartButtonModActive(root);
+        if (startButtonModActive) {
+            LOG(L"*** Detected 'Start button always on the left' mod - applying compatibility adjustments ***");
+        }
+
         bool isTrayGrid = (targetGrid.Name() == L"SystemTrayFrameGrid");
 
         if (isTrayGrid) {
@@ -2274,8 +2428,20 @@ static bool InjectPlayerGrid() {
                         g_trackedElement = targetElem;
                         g_trackPosition = trackSide;
 
+                        bool startButtonModActive = IsStartButtonModActive(root);
+                        double startButtonOffset = 0.0;
+
+                        if (startButtonModActive &&
+                            (g_settings.position == L"taskbar_left_start" ||
+                             g_settings.position == L"taskbar_right_start" ||
+                             g_settings.position == L"taskbar_after_taskview_left" ||
+                             g_settings.position == L"taskbar_after_taskview_right")) {
+                            startButtonOffset = GetStartButtonAdjustment(root);
+                            LOG(L"Start button mod detected, offset: %.2f", startButtonOffset);
+                        }
+
                         g_layoutUpdateToken = targetGrid.LayoutUpdated(
-                            [targetGrid](winrt::Windows::Foundation::IInspectable const&, winrt::Windows::Foundation::IInspectable const&) {
+                            [targetGrid, startButtonModActive, startButtonOffset](winrt::Windows::Foundation::IInspectable const&, winrt::Windows::Foundation::IInspectable const&) {
                                 if (!g_playerGrid || !g_trackedElement || g_unloading) return;
 
                                 double w = g_playerGrid.ActualWidth();
@@ -2300,6 +2466,10 @@ static bool InjectPlayerGrid() {
 
                                     if (g_trackPosition == L"left") {
                                         leftPos = point.X - desiredGap + g_settings.playerMarginLeft;
+
+                                        if (startButtonModActive && startButtonOffset > 0) {
+                                            leftPos += startButtonOffset;
+                                        }
                                     } else {
                                         leftPos = point.X + g_trackedElement.ActualWidth() + g_settings.playerMarginLeft;
                                     }
@@ -2479,10 +2649,68 @@ static void RefreshPlayerContents() {
         if (auto btn = fe.try_as<Button>())
             try {
                 if (auto ct = btn.Content().try_as<TextBlock>()) {
-                    ct.Text(winrt::hstring(isPlaying ? L"\uE769" : L"\uE768"));
+                    const wchar_t* glyph;
+                    if (isPlaying) {
+                        glyph = g_settings.fillButtonIcons ? L"" : L""; // Pause: filled F8AE / outline E769
+                    } else {
+                        glyph = g_settings.fillButtonIcons ? L"" : L""; // Play: filled F5B0 / outline E768
+                    }
+                    ct.Text(winrt::hstring(glyph));
                     ct.Foreground(MakeBrush(ButtonColor()));
                 }
             } catch (...) {}
+
+    if (auto fe = FindChildByName(g_playerGrid, kPrevBtnName))
+        if (auto btn = fe.try_as<Button>())
+            try {
+                if (auto ct = btn.Content().try_as<TextBlock>()) {
+                    const wchar_t* glyph = g_settings.fillButtonIcons ? L"" : L""; // Prev: filled F8AC / outline E892
+                    ct.Text(winrt::hstring(glyph));
+                    ct.Foreground(MakeBrush(ButtonColor()));
+                }
+            } catch (...) {}
+
+    if (auto fe = FindChildByName(g_playerGrid, kNextBtnName))
+        if (auto btn = fe.try_as<Button>())
+            try {
+                if (auto ct = btn.Content().try_as<TextBlock>()) {
+                    const wchar_t* glyph = g_settings.fillButtonIcons ? L"" : L""; // Next: filled F8AD / outline E893
+                    ct.Text(winrt::hstring(glyph));
+                    ct.Foreground(MakeBrush(ButtonColor()));
+                }
+            } catch (...) {}
+
+    if (g_settings.showPauseOverlay && g_settings.showAlbumArt) {
+        if (auto fe = FindChildByName(g_playerGrid, L"PauseIconOverlay"))
+            if (auto overlay = fe.try_as<Border>()) {
+                try {
+                    bool showPause = !isPlaying;
+                    overlay.Visibility(showPause ? Visibility::Visible : Visibility::Collapsed);
+
+                    if (showPause) {
+                        if (auto artImg = FindChildByName(g_playerGrid, kArtImageName)) {
+                            if (auto parent = VisualTreeHelper::GetParent(artImg)) {
+                                if (auto container = parent.try_as<FrameworkElement>()) {
+                                    if (auto grandParent = VisualTreeHelper::GetParent(container)) {
+                                        if (auto artContainer = grandParent.try_as<Grid>()) {
+                                            for (uint32_t i = 0; i < artContainer.Children().Size(); ++i) {
+                                                auto child = artContainer.Children().GetAt(i);
+                                                if (auto border = child.try_as<Border>()) {
+                                                    if (border.Name() == L"EmptyIconBorder") {
+                                                        border.Visibility(Visibility::Collapsed);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (...) {}
+            }
+    }
 
     if (auto fe = FindChildByName(g_playerGrid, kArtImageName))
         if (auto img = fe.try_as<Controls::Image>()) {
@@ -2506,8 +2734,18 @@ static void RefreshPlayerContents() {
                         if (auto parent = VisualTreeHelper::GetParent(img)) {
                             if (auto container = parent.try_as<FrameworkElement>()) {
                                 if (auto grandParent = VisualTreeHelper::GetParent(container)) {
-                                    if (auto artContainer = grandParent.try_as<FrameworkElement>()) {
+                                    if (auto artContainer = grandParent.try_as<Grid>()) {
                                         artContainer.Visibility(Visibility::Visible);
+
+                                        for (uint32_t i = 0; i < artContainer.Children().Size(); ++i) {
+                                            auto child = artContainer.Children().GetAt(i);
+                                            if (auto border = child.try_as<Border>()) {
+                                                if (border.Name() == L"EmptyIconBorder") {
+                                                    border.Visibility(Visibility::Collapsed);
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -2521,12 +2759,68 @@ static void RefreshPlayerContents() {
                     img.Source(nullptr);
                     img.Visibility(Visibility::Collapsed);
 
-                    if (g_settings.hideAlbumArtWhenEmpty && thumbBytes.empty()) {
+                    if (g_settings.albumArtEmptyBehavior == L"hide" && thumbBytes.empty()) {
                         if (auto parent = VisualTreeHelper::GetParent(img)) {
                             if (auto container = parent.try_as<FrameworkElement>()) {
                                 if (auto grandParent = VisualTreeHelper::GetParent(container)) {
                                     if (auto artContainer = grandParent.try_as<FrameworkElement>()) {
                                         artContainer.Visibility(Visibility::Collapsed);
+                                    }
+                                }
+                            }
+                        }
+                    } else if ((g_settings.albumArtEmptyBehavior == L"show_question" ||
+                                g_settings.albumArtEmptyBehavior == L"show_note") && thumbBytes.empty()) {
+                        if (auto parent = VisualTreeHelper::GetParent(img)) {
+                            if (auto container = parent.try_as<FrameworkElement>()) {
+                                if (auto grandParent = VisualTreeHelper::GetParent(container)) {
+                                    if (auto artContainer = grandParent.try_as<Grid>()) {
+                                        artContainer.Visibility(Visibility::Visible);
+
+                                        Border iconBorder = nullptr;
+                                        for (uint32_t i = 0; i < artContainer.Children().Size(); ++i) {
+                                            auto child = artContainer.Children().GetAt(i);
+                                            if (auto border = child.try_as<Border>()) {
+                                                if (border.Name() == L"EmptyIconBorder") {
+                                                    iconBorder = border;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (!iconBorder) {
+                                            double acr = (double)g_settings.albumArtCornerRadius;
+                                            iconBorder = Border();
+                                            iconBorder.Name(L"EmptyIconBorder");
+                                            iconBorder.Background(MakeBrush({0x40, 0x80, 0x80, 0x80}));
+                                            iconBorder.CornerRadius({acr, acr, acr, acr});
+                                            iconBorder.HorizontalAlignment(HorizontalAlignment::Stretch);
+                                            iconBorder.VerticalAlignment(VerticalAlignment::Stretch);
+                                            Canvas::SetZIndex(iconBorder, 5);
+
+                                            TextBlock iconText = TextBlock();
+                                            iconText.Name(L"EmptyIconText");
+                                            iconText.FontFamily(Media::FontFamily(L"Segoe MDL2 Assets"));
+                                            iconText.FontSize(20);
+                                            iconText.Foreground(MakeBrush({0xFF, 0xFF, 0xFF, 0xFF}));
+                                            iconText.HorizontalAlignment(HorizontalAlignment::Center);
+                                            iconText.VerticalAlignment(VerticalAlignment::Center);
+
+                                            iconBorder.Child(iconText);
+                                            artContainer.Children().Append(iconBorder);
+                                        }
+
+                                        if (auto textBlock = iconBorder.Child().try_as<TextBlock>()) {
+                                            if (g_settings.albumArtEmptyBehavior == L"show_question") {
+                                                textBlock.Text(L"?");
+                                                textBlock.FontFamily(Media::FontFamily(L"Segoe UI"));
+                                            } else {
+                                                textBlock.Text(L"");
+                                                textBlock.FontFamily(Media::FontFamily(L"Segoe MDL2 Assets"));
+                                            }
+                                        }
+
+                                        iconBorder.Visibility(Visibility::Visible);
                                     }
                                 }
                             }
