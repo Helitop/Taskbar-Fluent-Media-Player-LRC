@@ -1,19 +1,26 @@
-# Taskbar Fluent Media Player
-Embeds a Fluent Design media player inside the Windows 11 taskbar.
+# Taskbar Fluent Media Player 0.5.0-beta
+
+**Taskbar Fluent Media Player —** is a Windhawk mod that integrates a modern media player with Fluent Design directly into the Windows 11 taskbar. It allows you to control music and view track information seamlessly without interrupting your workflow.
+
+![img](https://i.imgur.com/dTcEZ9G.png)
+
+### Key Features:
+* **Deep Integration —** Place the player in the tray area (left or right of the clock), next to system icons, or in the center of the taskbar.
+* **Fluent UI Effects —** Full support for native Windows 11 materials including **Acrylic**, **Mica**, and **Mica Alt**.
+* **Adaptive Design —** The player can automatically adapt its colors based on the album art or follow the system accent color.
+* **Full Media Control —** Buttons for Play/Pause, Skip, 5-second Seek, Shuffle, and Repeat modes.
+* **Smart Behavior —** Automatically hides the player when no media is playing, when entering full-screen mode, or after a period of inactivity (idle).
+
+### Advanced Customization:
+* **Visuals —** Customize fonts (Segoe UI, Aptos, etc.), text sizes, padding, and element transparency.
+* **Album Art —** Adjustable corner radius, source app icon overlay, and pause overlay effects.
+* **Mouse Interactions —** Assign custom actions (Volume control, Track seeking, Session switching) to the mouse wheel, single clicks, or double clicks on different parts of the player.
 
 ---
 
-This mod is currently in beta testing. Some features may be unstable, may not work correctly, or may change in future updates. During use, errors, crashes, conflicts with other mods, or unexpected system behavior may occur.
-
-By installing and using this mod, you do so at your own risk. The author is not responsible for any possible consequences, including data loss, system instability, software conflicts, or other issues arising from the use of the mod.
-
-<img width="1919" height="54" alt="pic" src="https://github.com/user-attachments/assets/646f96a4-ca65-4f66-b4dc-2f4405dd93a6" />
-<img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/507fef12-04a7-447b-adf3-12abfd5d1d52" />
-<img width="1919" height="52" alt="pic" src="https://github.com/user-attachments/assets/4b627db9-6521-4e25-9050-d9da08a05f6b" />
-
-Report the problem here > [report issues](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues).
-
----
+### Report a Bug
+If you encounter any issues, bugs, or have suggestions for new features, please report them on the project's GitHub page:
+👉 **[Report an Issue on GitHub](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues)**
 
 Author - [@Salyts](https://github.com/Salyts)
 
