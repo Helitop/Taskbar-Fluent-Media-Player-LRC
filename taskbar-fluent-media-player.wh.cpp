@@ -1,5 +1,5 @@
 // ==WindhawkMod==
-// @id              taskbar-fluent-media-player4
+// @id              taskbar-fluent-media-player
 // @name            Taskbar Fluent Media Player
 // @description     Embeds a Fluent Design media player inside the Windows 11 taskbar.
 // @version         0.5.0-beta
