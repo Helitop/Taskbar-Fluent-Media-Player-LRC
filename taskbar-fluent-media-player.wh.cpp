@@ -1,8 +1,8 @@
 // ==WindhawkMod==
 // @id              taskbar-fluent-media-player
 // @name            Taskbar Fluent Media Player
-// @description     Embeds a Fluent Design media player inside the Windows 11 taskbar.
-// @version         0.5.0-beta
+// @description     Taskbar Fluent Media Player — is a Windhawk mod that integrates a modern media player with Fluent Design directly into the Windows 11 taskbar. It allows you to control music and view track information seamlessly without interrupting your workflow.
+// @version         0.6.0-beta
 // @author          Salyts
 // @github          https://github.com/Salyts
 // @include         explorer.exe
@@ -12,17 +12,31 @@
 
 // ==WindhawkModReadme==
 /*
-# Taskbar Fluent Media Player
+# Taskbar Fluent Media Player 0.6.0-beta
 
-## When updating a mod, REINSTALL IT COMPLETELY
+**Taskbar Fluent Media Player —** is a Windhawk mod that integrates a modern media player with Fluent Design directly into the Windows 11 taskbar. It allows you to control music and view track information seamlessly without interrupting your workflow.
 
+---
 
-Embeds a Fluent Design media player inside the Windows 11 taskbar.
+![img](https://i.imgur.com/S5vQyUa.png)
 
-This mod is currently in beta testing. Some features may be unstable, may not work correctly, or may change in future updates. During use, errors, crashes, conflicts with other mods, or unexpected system behavior may occur.
+### Key Features:
+* **Deep Integration —** Place the player in the tray area (left or right of the clock), next to system icons, or in the center of the taskbar.
+* **Fluent UI Effects —** Full support for native Windows 11 materials including **Acrylic**, **Mica**, and **Mica Alt**.
+* **Adaptive Design —** The player can automatically adapt its colors based on the album art or follow the system accent color.
+* **Full Media Control —** Buttons for Play/Pause, Skip, 5-second Seek, Shuffle, and Repeat modes.
+* **Smart Behavior —** Automatically hides the player when no media is playing, when entering full-screen mode, or after a period of inactivity (idle).
 
-By installing and using this mod, you do so at your own risk. The author is not responsible for any possible consequences, including data loss, system instability, software conflicts, or other issues arising from the use of the mod.
+### Advanced Customization:
+* **Visuals —** Customize fonts (Segoe UI, Aptos, etc.), text sizes, padding, and element transparency.
+* **Album Art —** Adjustable corner radius, source app icon overlay, and pause overlay effects.
+* **Mouse Interactions —** Assign custom actions (Volume control, Track seeking, Session switching) to the mouse wheel, single clicks, or double clicks on different parts of the player.
 
+---
+
+### Report a Bug
+If you encounter any issues, bugs, or have suggestions for new features, please report them on the project's GitHub page:
+👉 **[Report an Issue on GitHub](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues)**
 */
 // ==/WindhawkModReadme==
 
@@ -53,9 +67,8 @@ By installing and using this mod, you do so at your own risk. The author is not 
       - "taskbar_after_search_right": "Taskbar - Search button - Right"
       - "taskbar_after_taskview_left": "Taskbar - Task View button - Left"
       - "taskbar_after_taskview_right": "Taskbar - Task View button - Right"
-      - "taskbar_after_widgets_left": "Taskbar - Widgets button - Left"
-      - "taskbar_after_widgets_right": "Taskbar - Widgets button - Right"
-      - "taskbar_far_edge_left": "Taskbar - far edge - Left [TESTING]"
+      - "taskbar_after_widgets_left": "Taskbar - Widgets button - Left [Possible errors]"
+      - "taskbar_after_widgets_right": "Taskbar - Widgets button - Right [Possible errors]"
       - "taskbar_left_edge": "Taskbar - far edge (Overlay) - Left"
       - "taskbar_center_edge": "Taskbar - far edge (Overlay) - Center"
       - "taskbar_right_edge": "Taskbar - far edge (Overlay) - Right"
@@ -99,7 +112,6 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - iconStyle: "fluent_filled"
       $name: Icon style
       $options:
-      - "custom_icons": "Custom Icons Pack [Not Working]"
       - "fluent_outline": "Segoe Fluent Icons (Outline)"
       - "fluent_filled": "Segoe Fluent Icons (Filled)"
       - "mdl2_outline": "Segoe MDL2 Assets (Outline)"
@@ -140,6 +152,12 @@ By installing and using this mod, you do so at your own risk. The author is not 
       - "hide": "Hide area"
       - "show_question": "Show area with question mark"
       - "show_note": "Show area with music note"
+    - albumArtQuality: "medium"
+      $name: Album art quality
+      $options:
+      - "low": "Low (faster, less memory)"
+      - "medium": "Medium (default)"
+      - "high": "High (best quality)"
     - showPauseOverlay: false
       $name: Show pause icon overlay on album art when paused
     - pauseOverlayOpacity: 60
@@ -167,7 +185,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - textSpacing: 1
       $name: Spacing between title and artist (px)
     - titleFontSize: 12
-      $name: Title font size (pt)
+      $name: Title font size
     - titleFont: segoe_ui_variable
       $name: Title Font
       $options:
@@ -190,7 +208,7 @@ By installing and using this mod, you do so at your own risk. The author is not 
         - georgia: Georgia
         - times_new_roman: Times New Roman
     - artistFontSize: 11
-      $name: Artist font size (pt)
+      $name: Artist font size
     - artistFont: segoe_ui_variable
       $name: Artist Font
       $options:
@@ -215,12 +233,9 @@ By installing and using this mod, you do so at your own risk. The author is not 
     $name: Text Display
 
   - ThemeSettings:
-    - theme: "auto"
-      $name: Theme
-      $options:
-      - "auto":   "Follow system"
-      - "dark":   "Always dark"
-      - "light":  "Always light"
+    - autoTheme: true
+      $name: Enable auto theme
+      $description: When enabled, text and button colors are determined automatically based on system theme. When disabled, uses custom Title color, Button icons color, and Artist color settings
     - backgroundType: "none"
       $name: Background type
       $options:
@@ -237,32 +252,37 @@ By installing and using this mod, you do so at your own risk. The author is not 
     - solidColor2: "64 64 64"
       $name: Secondary color for gradient (R G B 0-255)
       $description: "Use '-1 -1 -1' for system contrast color, '-2 -2 -2' for album art color"
-    - solidOpacity: 204
-      $name: Solid color opacity (0-255)
+    - solidOpacity: 80
+      $name: Solid color opacity (0-100)
     - gradientAngle: 0
-      $name: Gradient rotation angle (0-360 degrees)
+      $name: Gradient rotation angle (0-360)
     - gradientBalance: 50
-      $name: Gradient color balance (0-100, 0=more primary, 100=more secondary)
-      $description: "Controls the transition point between colors. 50=center, 0=primary dominates, 100=secondary dominates"
+      $name: Gradient color balance (0-100)
     - acrylicTintOpacity: 60
       $name: Acrylic tint opacity (0-100)
-    - micaOpacity: 51
-      $name: Mica/Mica Alt opacity (0-255)
+    - micaOpacity: 20
+      $name: Mica/Mica Alt opacity (0-100)
     - blurOpacity: 100
       $name: Album art blur opacity (0-100)
     - blurRadius: 10
-      $name: Album art blur strength (1-50, higher = blurrier)
+      $name: Album art blur strength (1-50)
     - cornerRadius: 4
       $name: Panel corner radius (px)
     - buttonColor: "255 255 255"
       $name: Button icons color (R G B 0-255)
       $description: "Use '-1 -1 -1' for system contrast color, '-2 -2 -2' for album art color"
+    - buttonColorOpacity: 100
+      $name: Button icons opacity (0-100)
     - titleColor: "255 255 255"
       $name: Title color (R G B 0-255)
       $description: "Use '-1 -1 -1' for system contrast color, '-2 -2 -2' for album art color"
+    - titleColorOpacity: 90
+      $name: Title opacity (0-100)
     - artistColor: "200 200 200"
       $name: Artist color (R G B 0-255)
       $description: "Use '-1 -1 -1' for system contrast color, '-2 -2 -2' for album art color"
+    - artistColorOpacity: 60
+      $name: Artist opacity (0-100)
     $name: Theme & Colors
   $name: Display & Appearance
 
@@ -489,6 +509,7 @@ struct ModSettings {
     int          playerMaxHeight      = 40;
     bool         showAlbumArt         = true;
     std::wstring albumArtEmptyBehavior = L"show";
+    std::wstring albumArtQuality      = L"medium";
     bool         showPauseOverlay     = false;
     int          pauseOverlayOpacity  = 60;
     int          albumArtMinWidth     = 32;
@@ -523,7 +544,7 @@ struct ModSettings {
     int          textAreaRightMargin  = 5;
     bool         hideFullscreen       = true;
     int          idleHideSeconds      = 0;
-    std::wstring theme                = L"auto";
+    bool         autoTheme            = true;
     std::wstring backgroundType       = L"none";
     int          blurOpacity          = 100;
     int          blurRadius           = 10;
@@ -540,14 +561,17 @@ struct ModSettings {
     int          textSpacing          = 1;
     std::wstring solidColor           = L"32 32 32";
     std::wstring solidColor2          = L"64 64 64";
-    int          solidOpacity         = 204;
+    int          solidOpacity         = 80;
     int          gradientAngle        = 0;
     int          gradientBalance      = 50;
     int          acrylicTintOpacity   = 60;
-    int          micaOpacity          = 51;
+    int          micaOpacity          = 20;
     std::wstring buttonColor          = L"255 255 255";
+    int          buttonColorOpacity   = 100;
     std::wstring titleColor           = L"255 255 255";
+    int          titleColorOpacity    = 90;
     std::wstring artistColor          = L"200 200 200";
+    int          artistColorOpacity   = 60;
     std::wstring ignoredProcesses     = L"";
     bool         enableTreeDump       = false;
     bool         showDebugBorders     = false;
@@ -670,6 +694,7 @@ static void LoadSettings() {
     g_settings.showTrackArtist      = Wh_GetIntSetting(L"MainSettings.TextAreaSetting.showTrackArtist")   != 0;
     g_settings.showAlbumArt         = Wh_GetIntSetting(L"MainSettings.AlbumArtSetting.showAlbumArt")      != 0;
     g_settings.albumArtEmptyBehavior = Str(L"DisplaySettings.AlbumArtDisplaySettings.albumArtEmptyBehavior", L"show");
+    g_settings.albumArtQuality      = Str(L"DisplaySettings.AlbumArtDisplaySettings.albumArtQuality", L"medium");
     g_settings.showPauseOverlay     = Wh_GetIntSetting(L"DisplaySettings.AlbumArtDisplaySettings.showPauseOverlay")  != 0;
     g_settings.pauseOverlayOpacity  = Int(L"DisplaySettings.AlbumArtDisplaySettings.pauseOverlayOpacity",     0, 100,  60);
     g_settings.iconStyle            = Str(L"DisplaySettings.IconsSettings.iconStyle", L"fluent_outline");
@@ -677,7 +702,7 @@ static void LoadSettings() {
     g_settings.appIconCorner        = Str(L"DisplaySettings.AlbumArtDisplaySettings.appIconCorner",  L"bottom_right");
     g_settings.appIconSize          = Int(L"DisplaySettings.AlbumArtDisplaySettings.appIconSize",         8,  32,  12);
 
-    g_settings.theme                = Str(L"DisplaySettings.ThemeSettings.theme",          L"auto");
+    g_settings.autoTheme            = Wh_GetIntSetting(L"DisplaySettings.ThemeSettings.autoTheme") != 0;
     g_settings.backgroundType       = Str(L"DisplaySettings.ThemeSettings.backgroundType", L"none");
     g_settings.blurOpacity          = Int(L"DisplaySettings.ThemeSettings.blurOpacity",           0, 100, 100);
     g_settings.blurRadius           = Int(L"DisplaySettings.ThemeSettings.blurRadius",            1,  50,  10);
@@ -696,14 +721,17 @@ static void LoadSettings() {
     g_settings.textSpacing          = Int(L"DisplaySettings.TextDisplaySettings.textSpacing",           0,  20,   1);
     g_settings.solidColor           = Str(L"DisplaySettings.ThemeSettings.solidColor", L"32 32 32");
     g_settings.solidColor2          = Str(L"DisplaySettings.ThemeSettings.solidColor2", L"64 64 64");
-    g_settings.solidOpacity         = Int(L"DisplaySettings.ThemeSettings.solidOpacity", 0, 255, 204);
+    g_settings.solidOpacity         = Int(L"DisplaySettings.ThemeSettings.solidOpacity", 0, 100, 80);
     g_settings.gradientAngle        = Int(L"DisplaySettings.ThemeSettings.gradientAngle", 0, 360, 0);
     g_settings.gradientBalance      = Int(L"DisplaySettings.ThemeSettings.gradientBalance", 0, 100, 50);
     g_settings.acrylicTintOpacity   = Int(L"DisplaySettings.ThemeSettings.acrylicTintOpacity", 0, 100, 60);
-    g_settings.micaOpacity          = Int(L"DisplaySettings.ThemeSettings.micaOpacity", 0, 255, 51);
+    g_settings.micaOpacity          = Int(L"DisplaySettings.ThemeSettings.micaOpacity", 0, 100, 20);
     g_settings.buttonColor          = Str(L"DisplaySettings.ThemeSettings.buttonColor", L"255 255 255");
+    g_settings.buttonColorOpacity   = Int(L"DisplaySettings.ThemeSettings.buttonColorOpacity", 0, 100, 100);
     g_settings.titleColor           = Str(L"DisplaySettings.ThemeSettings.titleColor", L"255 255 255");
+    g_settings.titleColorOpacity    = Int(L"DisplaySettings.ThemeSettings.titleColorOpacity", 0, 100, 90);
     g_settings.artistColor          = Str(L"DisplaySettings.ThemeSettings.artistColor", L"200 200 200");
+    g_settings.artistColorOpacity   = Int(L"DisplaySettings.ThemeSettings.artistColorOpacity", 0, 100, 60);
 
     for (int i = 0; i < 20; i++) {
         PCWSTR objectStr = Wh_GetStringSetting(L"BehaviorSettings.ClickActionSettings[%d].object", i);
@@ -797,36 +825,53 @@ static void LoadSettings() {
     g_settings.showDebugBorders     = Wh_GetIntSetting(L"DebugSettings.showDebugBorders")  != 0;
     g_settings.showLayoutAnchors    = Wh_GetIntSetting(L"DebugSettings.showLayoutAnchors") != 0;
 
-    {
+    try {
         std::lock_guard<std::mutex> lock(g_mediaButtonsMutex);
         g_mediaButtons.clear();
         std::set<MediaButtonType> seen;
 
         for (int i = 0; i < 10; i++) {
-            PCWSTR itemStr = Wh_GetStringSetting(L"DisplaySettings.MediaButtonsSettings.mediaButtons[%d]", i);
-            if (!itemStr || !*itemStr) {
-                Wh_FreeStringSetting(itemStr);
-                break;
-            }
-
-            std::wstring keyword(itemStr);
-            Wh_FreeStringSetting(itemStr);
-
-            for (const auto& def : g_mediaButtonDefinitions) {
-                if (def.keyword == keyword && seen.insert(def.type).second) {
-                    g_mediaButtons.push_back({def.type, def.cmd});
+            try {
+                PCWSTR itemStr = Wh_GetStringSetting(L"DisplaySettings.MediaButtonsSettings.mediaButtons[%d]", i);
+                if (!itemStr) {
                     break;
                 }
+
+                if (!*itemStr) {
+                    Wh_FreeStringSetting(itemStr);
+                    break;
+                }
+
+                std::wstring keyword(itemStr);
+                Wh_FreeStringSetting(itemStr);
+
+                for (const auto& def : g_mediaButtonDefinitions) {
+                    if (def.keyword == keyword && seen.insert(def.type).second) {
+                        g_mediaButtons.push_back({def.type, def.cmd});
+                        break;
+                    }
+                }
+            } catch (...) {
+                Wh_Log(L"LoadSettings: Exception parsing media button at index %d", i);
             }
         }
 
         if (g_mediaButtons.empty()) {
+            Wh_Log(L"LoadSettings: No media buttons configured, using defaults");
             g_mediaButtons = {
                 {MediaButtonType::Previous, 1},
                 {MediaButtonType::PlayPause, 2},
                 {MediaButtonType::Next, 3}
             };
         }
+    } catch (...) {
+        Wh_Log(L"LoadSettings: Critical exception in media buttons parsing, using defaults");
+        std::lock_guard<std::mutex> lock(g_mediaButtonsMutex);
+        g_mediaButtons = {
+            {MediaButtonType::Previous, 1},
+            {MediaButtonType::PlayPause, 2},
+            {MediaButtonType::Next, 3}
+        };
     }
 
     if (g_settings.position == L"taskbar_left")
@@ -1015,8 +1060,7 @@ static bool IsSystemLightTheme() {
 }
 
 static bool IsLightTheme() {
-    if (g_settings.theme == L"light") return true;
-    if (g_settings.theme == L"dark")  return false;
+    if (!g_settings.autoTheme) return false;
     return IsSystemLightTheme();
 }
 
@@ -1036,17 +1080,17 @@ static SolidColorBrush MakeBrush(winrt::Windows::UI::Color c) {
 }
 
 static winrt::Windows::UI::Color GetSystemButtonHoverColor() {
-    if (IsLightTheme()) return winrt::Windows::UI::Color{0x25, 0x00, 0x00, 0x00};
+    if (IsLightTheme()) return winrt::Windows::UI::Color{0x60, 0xFF, 0xFF, 0xFF};
     else return winrt::Windows::UI::Color{0x10, 0xFF, 0xFF, 0xFF};
 }
 
 static winrt::Windows::UI::Color GetSystemButtonPressedColor() {
-    if (IsLightTheme()) return winrt::Windows::UI::Color{0x40, 0x00, 0x00, 0x00};
+    if (IsLightTheme()) return winrt::Windows::UI::Color{0x50, 0xFF, 0xFF, 0xFF};
     else return winrt::Windows::UI::Color{0x0A, 0xFF, 0xFF, 0xFF};
 }
 
 static winrt::Windows::UI::Color GetSystemButtonBorderColor() {
-    if (IsLightTheme()) return winrt::Windows::UI::Color{0x20, 0x00, 0x00, 0x00};
+    if (IsLightTheme()) return winrt::Windows::UI::Color{0x08, 0x00, 0x00, 0x00};
     else return winrt::Windows::UI::Color{0x14, 0xFF, 0xFF, 0xFF};
 }
 
@@ -1111,10 +1155,7 @@ static VisualStateGroup FindCommonStatesGroup(Button const& btn) {
     return nullptr;
 }
 
-static Style GetFluentMediaButtonStyle() {
-    static winrt::weak_ref<Style> cached;
-    if (auto existing = cached.get()) return existing;
-
+static Style CreateFluentMediaButtonStyle() {
     static const wchar_t kStyleXaml[] = LR"(<Style TargetType="Button"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -1151,17 +1192,29 @@ static Style GetFluentMediaButtonStyle() {
 </Style>)";
 
     try {
-        auto style = winrt::Windows::UI::Xaml::Markup::XamlReader::Load(
+        return winrt::Windows::UI::Xaml::Markup::XamlReader::Load(
             winrt::hstring(kStyleXaml)).as<Style>();
-        cached = style;
-        return style;
     } catch (...) {
         return nullptr;
     }
 }
 
+static Style GetFluentMediaButtonStyle() {
+    static winrt::weak_ref<Style> cached;
+    if (auto existing = cached.get()) return existing;
+    auto style = CreateFluentMediaButtonStyle();
+    if (style) cached = style;
+    return style;
+}
+
 static void ApplyFluentMediaButtonStyle(Button const& btn) {
     if (auto style = GetFluentMediaButtonStyle()) {
+        btn.Style(style);
+    }
+}
+
+static void ApplyFreshFluentMediaButtonStyle(Button const& btn) {
+    if (auto style = CreateFluentMediaButtonStyle()) {
         btn.Style(style);
     }
 }
@@ -1553,15 +1606,41 @@ static winrt::Windows::UI::Color ParseColorWithSpecialValues(const std::wstring&
 }
 
 static winrt::Windows::UI::Color TextColor() {
-    return ParseColorWithSpecialValues(g_settings.titleColor, 0xE5);
+    if (g_settings.autoTheme) {
+        BYTE alpha = (BYTE)((90.0 / 100.0) * 255);
+        if (IsSystemLightTheme()) {
+            return winrt::Windows::UI::Color{alpha, 0x00, 0x00, 0x00};
+        } else {
+            return winrt::Windows::UI::Color{alpha, 0xFF, 0xFF, 0xFF};
+        }
+    }
+    BYTE alpha = (BYTE)((g_settings.titleColorOpacity / 100.0) * 255);
+    return ParseColorWithSpecialValues(g_settings.titleColor, alpha);
 }
 
 static winrt::Windows::UI::Color ArtistColor() {
-    return ParseColorWithSpecialValues(g_settings.artistColor, 0x99);
+    if (g_settings.autoTheme) {
+        BYTE alpha = (BYTE)((80.0 / 100.0) * 255);
+        if (IsSystemLightTheme()) {
+            return winrt::Windows::UI::Color{alpha, 0x00, 0x00, 0x00};
+        } else {
+            return winrt::Windows::UI::Color{alpha, 0xFF, 0xFF, 0xFF};
+        }
+    }
+    BYTE alpha = (BYTE)((g_settings.artistColorOpacity / 100.0) * 255);
+    return ParseColorWithSpecialValues(g_settings.artistColor, alpha);
 }
 
 static winrt::Windows::UI::Color ButtonColor() {
-    return ParseColorWithSpecialValues(g_settings.buttonColor, 0xFF);
+    BYTE alpha = (BYTE)((g_settings.buttonColorOpacity / 100.0) * 255);
+    if (g_settings.autoTheme) {
+        if (IsSystemLightTheme()) {
+            return winrt::Windows::UI::Color{alpha, 0x00, 0x00, 0x00};
+        } else {
+            return winrt::Windows::UI::Color{alpha, 0xFF, 0xFF, 0xFF};
+        }
+    }
+    return ParseColorWithSpecialValues(g_settings.buttonColor, alpha);
 }
 
 static Brush MakeAlbumBlurBrush(const std::vector<BYTE>& thumbBytes,
@@ -1591,8 +1670,9 @@ static Brush MakeAlbumBlurBrush(const std::vector<BYTE>& thumbBytes,
 static Brush MakeBackgroundBrush() {
     auto& t = g_settings.backgroundType;
 
-    auto color1 = ParseColorWithSpecialValues(g_settings.solidColor, (BYTE)g_settings.solidOpacity);
-    auto color2 = ParseColorWithSpecialValues(g_settings.solidColor2, (BYTE)g_settings.solidOpacity);
+    BYTE opacity = (BYTE)((g_settings.solidOpacity / 100.0) * 255);
+    auto color1 = ParseColorWithSpecialValues(g_settings.solidColor, opacity);
+    auto color2 = ParseColorWithSpecialValues(g_settings.solidColor2, opacity);
 
     if (t == L"gradient") {
         try {
@@ -1642,7 +1722,8 @@ static Brush MakeBackgroundBrush() {
     }
 
     if (t == L"mica" || t == L"mica_alt") {
-        auto col = winrt::Windows::UI::Color{(BYTE)g_settings.micaOpacity, color1.R, color1.G, color1.B};
+        BYTE micaAlpha = (BYTE)((g_settings.micaOpacity / 100.0) * 255);
+        auto col = winrt::Windows::UI::Color{micaAlpha, color1.R, color1.G, color1.B};
         return MakeBrush(col);
     }
 
@@ -1969,7 +2050,11 @@ static void ExecuteMediaAction(const std::wstring& action) {
         DispatchMediaUpdate();
     } else if (action == L"open_app") {
         std::thread([]() {
-            std::wstring app;
+            std::wstring title, app;
+            {
+                std::lock_guard<std::mutex> lk(g_mediaMtx);
+                title = g_media.title;
+            }
             {
                 std::lock_guard<std::mutex> lk(g_sessionMtx);
                 if (g_currentSession) {
@@ -1978,88 +2063,51 @@ static void ExecuteMediaAction(const std::wstring& action) {
                     } catch (...) {}
                 }
             }
-            if (!app.empty()) {
-                HWND foundWindow = nullptr;
 
-                struct FindData {
-                    const std::wstring* aumid;
-                    HWND hwnd;
+            if (!title.empty()) {
+                struct WindowSearch {
+                    std::wstring targetTitle;
+                    HWND foundHwnd = nullptr;
                 };
-                FindData fd{&app, nullptr};
+                WindowSearch search;
+                search.targetTitle = title;
 
-                EnumWindows([](HWND hWnd, LPARAM lParam) -> BOOL {
-                    auto* fd2 = reinterpret_cast<FindData*>(lParam);
-                    if (!IsWindowVisible(hWnd)) return TRUE;
-
-                    wchar_t title[256] = {};
-                    GetWindowTextW(hWnd, title, 256);
-                    if (wcslen(title) == 0) return TRUE;
-
-                    DWORD pid = 0;
-                    GetWindowThreadProcessId(hWnd, &pid);
-                    if (!pid) return TRUE;
-
-                    wchar_t procPath[MAX_PATH] = {};
-                    HANDLE hProc = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
-                    if (hProc) {
-                        DWORD sz = MAX_PATH;
-                        QueryFullProcessImageNameW(hProc, 0, procPath, &sz);
-                        CloseHandle(hProc);
+                EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
+                    if (!IsWindowVisible(hwnd)) {
+                        return TRUE;
                     }
 
-                    std::wstring procName = procPath;
-                    auto slash = procName.rfind(L'\\');
-                    if (slash != std::wstring::npos) procName = procName.substr(slash + 1);
+                    wchar_t windowTitle[512];
+                    if (GetWindowTextW(hwnd, windowTitle, 512) > 0) {
+                        auto* search = reinterpret_cast<WindowSearch*>(lParam);
+                        std::wstring wTitle(windowTitle);
+                        auto it = std::search(
+                            wTitle.begin(), wTitle.end(),
+                            search->targetTitle.begin(), search->targetTitle.end(),
+                            [](wchar_t ch1, wchar_t ch2) { return towlower(ch1) == towlower(ch2); }
+                        );
 
-                    auto dot = procName.rfind(L'.');
-                    if (dot != std::wstring::npos) procName = procName.substr(0, dot);
-
-                    const std::wstring& aumid = *fd2->aumid;
-                    std::wstring aumidLower = aumid;
-                    std::wstring procLower = procName;
-                    for (auto& c : aumidLower) c = towlower(c);
-                    for (auto& c : procLower) c = towlower(c);
-
-                    if (aumidLower.find(procLower) != std::wstring::npos ||
-                        procLower.find(aumidLower) != std::wstring::npos) {
-                        fd2->hwnd = hWnd;
-                        return FALSE;
+                        if (it != wTitle.end()) {
+                            search->foundHwnd = hwnd;
+                            return FALSE;
+                        }
                     }
                     return TRUE;
-                }, reinterpret_cast<LPARAM>(&fd));
+                }, reinterpret_cast<LPARAM>(&search));
 
-                foundWindow = fd.hwnd;
-
-                if (foundWindow) {
-                    if (IsIconic(foundWindow)) {
-                        ShowWindow(foundWindow, SW_RESTORE);
+                if (search.foundHwnd) {
+                    if (IsIconic(search.foundHwnd)) {
+                        ShowWindow(search.foundHwnd, SW_RESTORE);
                     }
-
-                    DWORD currentThreadId = GetCurrentThreadId();
-                    DWORD windowThreadId = GetWindowThreadProcessId(foundWindow, nullptr);
-
-                    if (currentThreadId != windowThreadId) {
-                        AttachThreadInput(currentThreadId, windowThreadId, TRUE);
-                        BringWindowToTop(foundWindow);
-                        ShowWindow(foundWindow, SW_SHOW);
-                        AttachThreadInput(currentThreadId, windowThreadId, FALSE);
-                    }
-
-                    SetForegroundWindow(foundWindow);
-                    SetFocus(foundWindow);
-                } else {
-                    std::wstring appLower = app;
-                    for (auto& c : appLower) c = towlower(c);
-
-                    bool isUnsupported = (appLower.find(L"windows.") == 0 ||
-                                         appLower.find(L"microsoft.windows.") == 0 ||
-                                         appLower.find(L"systemsettings") != std::wstring::npos);
-
-                    if (!isUnsupported) {
-                        std::wstring shellPath = L"shell:AppsFolder\\" + app;
-                        ShellExecuteW(nullptr, L"open", shellPath.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
-                    }
+                    SetForegroundWindow(search.foundHwnd);
+                    return;
                 }
+            }
+
+            if (!app.empty()) {
+                std::wstring shellPath = L"shell:AppsFolder\\" + app;
+                ShellExecuteW(nullptr, L"open", shellPath.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+                return;
             }
         }).detach();
     }
@@ -2794,7 +2842,7 @@ static DWORD WINAPI TimerThreadProc(void*) {
         }
 
         if (wait == WAIT_OBJECT_0 + 1) {
-            if (g_settings.theme == L"auto") {
+            if (g_settings.autoTheme) {
                 bool currentThemeIsLight = IsSystemLightTheme();
                 if (currentThemeIsLight != lastThemeWasLight) {
                     lastThemeWasLight = currentThemeIsLight;
@@ -2869,13 +2917,18 @@ static void RefreshThemeColors();
 static LRESULT CALLBACK ThemeWatchWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_SETTINGCHANGE) {
         const wchar_t* section = reinterpret_cast<const wchar_t*>(lParam);
-        if (section && wcscmp(section, L"ImmersiveColorSet") == 0) {
-            if (g_taskbarWnd) {
-                RunFromWindowThread(g_taskbarWnd, [](void*) {
-                    if (!g_unloading && !g_applyingSettings && g_playerGrid)
-                        RefreshThemeColors();
-                }, nullptr);
-            }
+        bool shouldRefresh = false;
+        if (!section || !*section) {
+            shouldRefresh = true;
+        } else if (wcscmp(section, L"ImmersiveColorSet") == 0) {
+            shouldRefresh = true; 
+        }
+
+        if (shouldRefresh && g_taskbarWnd) {
+            RunFromWindowThread(g_taskbarWnd, [](void*) {
+                if (!g_unloading && !g_applyingSettings && g_playerGrid)
+                    RefreshThemeColors();
+            }, nullptr);
         }
     }
     return DefWindowProcW(hWnd, msg, wParam, lParam);
@@ -2964,10 +3017,10 @@ static void RefreshThemeColors() {
 
         if (auto fe = FindChildByName(g_playerGrid, L"FluentMedia_OuterBorder")) {
             if (auto btn = fe.try_as<Button>()) {
-                ApplyFluentMediaButtonStyle(btn);
+                ApplyFreshFluentMediaButtonStyle(btn);
                 auto transparentBg = MakeBrush({0x00, 0, 0, 0});
                 SetupPlayerButtonCommonStates(btn, transparentBg);
-                GoToCommonState(btn, g_settings.enablePlayerHoverEffect, false, false);
+                VisualStateManager::GoToState(btn, L"Normal", false);
             }
         }
 
@@ -2980,9 +3033,9 @@ static void RefreshThemeColors() {
         for (const wchar_t* name : {kPrevBtnName, kPlayBtnName, kNextBtnName, kRewindBtnName, kForwardBtnName, kShuffleBtnName, kRepeatBtnName}) {
             if (auto fe = FindChildByName(g_playerGrid, name)) {
                 if (auto btn = fe.try_as<Button>()) {
-                    ApplyFluentMediaButtonStyle(btn);
+                    ApplyFreshFluentMediaButtonStyle(btn);
                     SetupMediaButtonCommonStates(btn);
-                    GoToCommonState(btn, g_settings.enableMediaButtonsHoverEffect, false, false);
+                    VisualStateManager::GoToState(btn, L"Normal", false);
                     if (auto ct = btn.Content().try_as<TextBlock>()) ct.Foreground(MakeBrush(buttonClr));
                 }
             }
@@ -3030,11 +3083,15 @@ static XamlRoot GetTaskbarXamlRoot(HWND hTaskbarWnd) {
         size_t offset = 0x48;
         if (TaskbarHost_FrameHeight_Original) {
             const BYTE* b = (const BYTE*)TaskbarHost_FrameHeight_Original;
-#ifdef _WIN64
+#if defined(_M_X64)
             if (b[0] == 0x48 && b[1] == 0x83 && b[2] == 0xEC && b[4] == 0x48 &&
                 b[5] == 0x83 && b[6] == 0xC1 && b[7] <= 0x7F)
                 offset = b[7];
-#else
+#elif defined(_M_ARM64)
+            // ARM64: ADD X0, X0, #offset
+            if ((*(DWORD*)b & 0xFFC003FF) == 0x91000000)
+                offset = ((*(DWORD*)b >> 10) & 0xFFF);
+#else  // _M_IX86
             if (b[0] == 0x8B && b[1] == 0x81)
                 offset = *(DWORD*)(b + 2);
 #endif
@@ -3129,6 +3186,11 @@ static TextBlock MakeIconText(const wchar_t* glyph, double sz, winrt::Windows::U
 static Button MakeControlButton(int cmd, bool isPlaying, winrt::Windows::UI::Color iconColor) {
     Button btn;
     try {
+        if (cmd < 1 || cmd > 8) {
+            Wh_Log(L"MakeControlButton: Invalid command %d, defaulting to 2 (play/pause)", cmd);
+            cmd = 2;
+        }
+
         btn.Width((double)g_settings.buttonSize);
         btn.Height((double)g_settings.buttonSize);
         btn.Padding({1,1,1,1});
@@ -3151,8 +3213,12 @@ static Button MakeControlButton(int cmd, bool isPlaying, winrt::Windows::UI::Col
 
         btn.Click([cmd](auto const&, auto const&) {
             if (!g_unloading) {
-                SendMediaCommandAsync(cmd);
-                DispatchMediaUpdate();
+                try {
+                    SendMediaCommandAsync(cmd);
+                    DispatchMediaUpdate();
+                } catch (...) {
+                    Wh_Log(L"MakeControlButton: Exception in Click handler for cmd %d", cmd);
+                }
             }
         });
 
@@ -3162,12 +3228,20 @@ static Button MakeControlButton(int cmd, bool isPlaying, winrt::Windows::UI::Col
         auto isHovered = std::make_shared<bool>(false);
 
         auto updateBtnVisualState = [btn, isPressed, isHovered]() {
-            GoToCommonState(btn, g_settings.enableMediaButtonsHoverEffect, *isPressed, *isHovered);
+            try {
+                GoToCommonState(btn, g_settings.enableMediaButtonsHoverEffect, *isPressed, *isHovered);
+            } catch (...) {
+
+            }
         };
 
         RunWhenButtonReady(btn, [btn, updateBtnVisualState]() {
-            SetupMediaButtonCommonStates(btn);
-            updateBtnVisualState();
+            try {
+                SetupMediaButtonCommonStates(btn);
+                updateBtnVisualState();
+            } catch (...) {
+                Wh_Log(L"MakeControlButton: Exception in RunWhenButtonReady");
+            }
         });
 
         btn.PointerEntered([isHovered, updateBtnVisualState](auto const&, auto const&) {
@@ -3658,52 +3732,99 @@ static Grid BuildPlayerGrid() {
             ctrlPanel.HorizontalAlignment(buttonsLeft ? HorizontalAlignment::Left : HorizontalAlignment::Right);
 
             std::vector<MediaButtonConfig> currentButtons;
-            {
+            try {
                 std::lock_guard<std::mutex> lock(g_mediaButtonsMutex);
-                currentButtons = g_mediaButtons;
+                if (!g_mediaButtons.empty()) {
+                    currentButtons = g_mediaButtons;
+                } else {
+                    Wh_Log(L"CreatePlayerGrid: Media buttons vector is empty, using defaults");
+                    currentButtons = {
+                        {MediaButtonType::Previous, 1},
+                        {MediaButtonType::PlayPause, 2},
+                        {MediaButtonType::Next, 3}
+                    };
+                }
+            } catch (const std::exception& e) {
+                Wh_Log(L"CreatePlayerGrid: Exception accessing media buttons (std::exception), using defaults");
+                currentButtons = {
+                    {MediaButtonType::Previous, 1},
+                    {MediaButtonType::PlayPause, 2},
+                    {MediaButtonType::Next, 3}
+                };
+            } catch (...) {
+                Wh_Log(L"CreatePlayerGrid: Unknown exception accessing media buttons, using defaults");
+                currentButtons = {
+                    {MediaButtonType::Previous, 1},
+                    {MediaButtonType::PlayPause, 2},
+                    {MediaButtonType::Next, 3}
+                };
             }
 
             bool hasButtons = !currentButtons.empty();
             if (hasButtons) {
-                ctrlPanel.Margin({(double)g_settings.mediaButtonsLeftMargin, 0, (double)g_settings.mediaButtonsRightMargin, 0});
+                try {
+                    ctrlPanel.Margin({(double)g_settings.mediaButtonsLeftMargin, 0, (double)g_settings.mediaButtonsRightMargin, 0});
+                } catch (...) {
+                    Wh_Log(L"CreatePlayerGrid: Exception setting control panel margin");
+                }
             }
 
             if (g_settings.showDebugBorders) {
-                Border ctrlDebugBorder;
-                ctrlDebugBorder.BorderBrush(MakeBrush({0xFF, 0xFF, 0x00, 0xFF}));
-                ctrlDebugBorder.BorderThickness({1,1,1,1});
-                Grid::SetColumn(ctrlDebugBorder, buttonsLeft ? 0 : 3);
-                panel.Children().Append(ctrlDebugBorder);
+                try {
+                    Border ctrlDebugBorder;
+                    ctrlDebugBorder.BorderBrush(MakeBrush({0xFF, 0xFF, 0x00, 0xFF}));
+                    ctrlDebugBorder.BorderThickness({1,1,1,1});
+                    Grid::SetColumn(ctrlDebugBorder, buttonsLeft ? 0 : 3);
+                    panel.Children().Append(ctrlDebugBorder);
+                } catch (...) {
+                    Wh_Log(L"CreatePlayerGrid: Exception creating debug border");
+                }
             }
 
-            for (const auto& btnCfg : currentButtons) {
-                auto btn = MakeControlButton(btnCfg.cmd, false, buttonClr);
+            for (size_t i = 0; i < currentButtons.size(); i++) {
+                try {
+                    const auto& btnCfg = currentButtons[i];
+                    auto btn = MakeControlButton(btnCfg.cmd, false, buttonClr);
+                    if (!btn) {
+                        Wh_Log(L"CreatePlayerGrid: MakeControlButton returned null for button %zu", i);
+                        continue;
+                    }
 
-                switch (btnCfg.type) {
-                    case MediaButtonType::Previous:
-                        btn.Name(kPrevBtnName);
-                        break;
-                    case MediaButtonType::PlayPause:
-                        btn.Name(kPlayBtnName);
-                        break;
-                    case MediaButtonType::Next:
-                        btn.Name(kNextBtnName);
-                        break;
-                    case MediaButtonType::Rewind5s:
-                        btn.Name(kRewindBtnName);
-                        break;
-                    case MediaButtonType::Forward5s:
-                        btn.Name(kForwardBtnName);
-                        break;
-                    case MediaButtonType::Shuffle:
-                        btn.Name(kShuffleBtnName);
-                        break;
-                    case MediaButtonType::Repeat:
-                        btn.Name(kRepeatBtnName);
-                        break;
+                    switch (btnCfg.type) {
+                        case MediaButtonType::Previous:
+                            btn.Name(kPrevBtnName);
+                            break;
+                        case MediaButtonType::PlayPause:
+                            btn.Name(kPlayBtnName);
+                            break;
+                        case MediaButtonType::Next:
+                            btn.Name(kNextBtnName);
+                            break;
+                        case MediaButtonType::Rewind5s:
+                            btn.Name(kRewindBtnName);
+                            break;
+                        case MediaButtonType::Forward5s:
+                            btn.Name(kForwardBtnName);
+                            break;
+                        case MediaButtonType::Shuffle:
+                            btn.Name(kShuffleBtnName);
+                            break;
+                        case MediaButtonType::Repeat:
+                            btn.Name(kRepeatBtnName);
+                            break;
+                        default:
+                            Wh_Log(L"CreatePlayerGrid: Unknown button type %d", static_cast<int>(btnCfg.type));
+                            continue;
+                    }
+
+                    ctrlPanel.Children().Append(btn);
+                } catch (const winrt::hresult_error& e) {
+                    Wh_Log(L"CreatePlayerGrid: WinRT exception creating button %zu: 0x%08X", i, static_cast<uint32_t>(e.code()));
+                } catch (const std::exception& e) {
+                    Wh_Log(L"CreatePlayerGrid: std::exception creating button %zu", i);
+                } catch (...) {
+                    Wh_Log(L"CreatePlayerGrid: Unknown exception creating button %zu, skipping", i);
                 }
-
-                ctrlPanel.Children().Append(btn);
             }
 
             if (buttonsLeft) {
@@ -4346,7 +4467,6 @@ static InjectionTarget ResolveInjectionTarget(
         position == L"taskbar_after_taskview_right"||
         position == L"taskbar_after_widgets_left"||
         position == L"taskbar_after_widgets_right"||
-        position == L"taskbar_far_edge_left" ||
         position == L"taskbar_left_edge"   ||
         position == L"taskbar_center_edge" ||
         position == L"taskbar_right_edge")
@@ -4459,8 +4579,7 @@ static bool InjectPlayerGrid() {
                                        g_settings.position == L"taskbar_after_taskview_left" ||
                                        g_settings.position == L"taskbar_after_taskview_right" ||
                                        g_settings.position == L"taskbar_after_widgets_left" ||
-                                       g_settings.position == L"taskbar_after_widgets_right" ||
-                                       g_settings.position == L"taskbar_far_edge_left");
+                                       g_settings.position == L"taskbar_after_widgets_right");
 
             if (isEdgePosition || isTrackingPosition) {
                 double leftMargin  = (double)g_settings.playerMarginLeft;
@@ -4486,10 +4605,7 @@ static bool InjectPlayerGrid() {
                     std::wstring trackSide = L"right";
 
                     if (repeater) {
-                        if (g_settings.position == L"taskbar_far_edge_left") {
-                            targetElem = repeater.try_as<FrameworkElement>();
-                            trackSide = L"far_left";
-                        } else if (g_settings.position == L"taskbar_left_start") {
+                        if (g_settings.position == L"taskbar_left_start") {
                             targetElem = FindElementInRepeater(repeater, kStartButtonNames, ARRAYSIZE(kStartButtonNames));
                             trackSide = L"left";
                         } else if (g_settings.position == L"taskbar_right_start") {
@@ -4683,8 +4799,7 @@ static bool InjectPlayerGrid() {
                                   g_settings.position == L"taskbar_after_taskview_left" ||
                                   g_settings.position == L"taskbar_after_taskview_right" ||
                                   g_settings.position == L"taskbar_after_widgets_left" ||
-                                  g_settings.position == L"taskbar_after_widgets_right" ||
-                                  g_settings.position == L"taskbar_far_edge_left");
+                                  g_settings.position == L"taskbar_after_widgets_right");
 
         std::thread([playerGrid, targetGrid, needsExtraUpdates]() {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -4784,8 +4899,7 @@ static void RemovePlayerGrid() {
                                   g_settings.position == L"taskbar_after_taskview_left" ||
                                   g_settings.position == L"taskbar_after_taskview_right" ||
                                   g_settings.position == L"taskbar_after_widgets_left" ||
-                                  g_settings.position == L"taskbar_after_widgets_right" ||
-                                  g_settings.position == L"taskbar_far_edge_left");
+                                  g_settings.position == L"taskbar_after_widgets_right");
 
         if (!isTrackingPosition && playerCol >= 0 && playerCol < (int)targetGrid.ColumnDefinitions().Size()) {
             for (uint32_t i = 0; i < targetGrid.Children().Size(); ++i) {
@@ -5054,9 +5168,18 @@ static void RefreshPlayerContents() {
                             writer.DetachStream();
                             stream.Seek(0);
                             BitmapImage bmp;
-                            if (g_settings.albumArtMaxHeight > 0) {
-                                bmp.DecodePixelHeight(g_settings.albumArtMaxHeight);
+
+                            if (g_settings.albumArtQuality == L"low") {
+                                int baseHeight = g_settings.albumArtMaxHeight > 0 ? g_settings.albumArtMaxHeight : 64;
+                                int decodeHeight = baseHeight / 2;
+                                if (decodeHeight < 16) decodeHeight = 16;
+                                bmp.DecodePixelHeight(decodeHeight);
+                            } else if (g_settings.albumArtQuality == L"medium") {
+                                if (g_settings.albumArtMaxHeight > 0) {
+                                    bmp.DecodePixelHeight(g_settings.albumArtMaxHeight);
+                                }
                             }
+
                             bmp.SetSourceAsync(stream);
                             img.Source(bmp);
                             img.Visibility(Visibility::Visible);
@@ -5531,6 +5654,7 @@ static HMODULE WINAPI LoadLibraryExW_Hook(LPCWSTR path, HANDLE file, DWORD flags
         if (_wcsicmp(base, L"Taskbar.View.dll") == 0 ||
             _wcsicmp(base, L"SystemTray.dll") == 0 ||
             _wcsicmp(base, L"ExplorerExtensions.dll") == 0) {
+            // Taskbar.View.dll, SystemTray.dll, ExplorerExtensions.dll
             WindhawkUtils::SYMBOL_HOOK hooks[] = {{
                 {LR"(public: __cdecl winrt::SystemTray::implementation::IconView::IconView(void))"},
                 &IconView_IconView_Original,
@@ -5564,6 +5688,7 @@ static bool HookTaskbarDllSymbols() {
 }
 
 static bool HookTaskbarViewDllSymbols(HMODULE h) {
+    // Taskbar.View.dll, SystemTray.dll, ExplorerExtensions.dll
     WindhawkUtils::SYMBOL_HOOK hooks[] = {{
         {LR"(public: __cdecl winrt::SystemTray::implementation::IconView::IconView(void))"},
         &IconView_IconView_Original,
