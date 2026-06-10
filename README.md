@@ -4,7 +4,9 @@
 
 ### [> Russian documentation <](https://github.com/Salyts/Taskbar-Fluent-Media-Player/blob/main/README_RU.md)
 
-![img](https://i.imgur.com/S5vQyUa.png)
+![img](https://i.imgur.com/9xXlVyq.png)
+
+![img](https://i.imgur.com/Md5CvZB.png)
 
 ### Key Features:
 * **Deep Integration —** Place the player in the tray area (left or right of the clock), next to system icons, or in the center of the taskbar.
