@@ -4,7 +4,9 @@
 
 ### [> Документация на английском языке <](https://github.com/Salyts/Taskbar-Fluent-Media-Player)
 
-![img](https://i.imgur.com/S5vQyUa.png)
+![img](https://i.imgur.com/9xXlVyq.png)
+
+![img](https://i.imgur.com/Md5CvZB.png)
 
 ## Основные возможности:
 
