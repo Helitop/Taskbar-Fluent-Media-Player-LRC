@@ -4,10 +4,10 @@
 // @description     Taskbar Fluent Media Player — is a Windhawk mod that integrates a modern media player with Fluent Design directly into the Windows 11 taskbar. It allows you to control music and view track information seamlessly without interrupting your workflow.
 // @description:ru-RU Taskbar Fluent Media Player — это мод Windhawk, который интегрирует современный медиаплеер в стиле Fluent Design прямо в панель задач Windows 11. Он позволяет управлять музыкой и просматривать информацию о треке без прерывания работы.
 // @version         1.3.0
-// @author          Salyts
-// @github          https://github.com/Salyts
+// @author          Salyts, GR0UD
+// @github          https://github.com/Salyts, https://github.com/GR0UD
 // @include         explorer.exe
-// @compilerOptions -lole32 -loleaut32 -lruntimeobject -lversion -luuid -luser32 -lwindowsapp -lshell32 -lgdi32 -lshlwapi -lwindowscodecs -ldwmapi -lshcore
+// @compilerOptions -lole32 -loleaut32 -lruntimeobject -lversion -luuid -luser32 -lwindowsapp -lshell32 -lgdi32 -lshlwapi -lwindowscodecs -ldwmapi -lshcore -lksuser
 // ==/WindhawkMod==
 
 // ==WindhawkModReadme==
@@ -28,6 +28,7 @@
 * **Adaptive Design —** The player can automatically adapt its colors based on the album art or follow the system accent color.
 * **Full Media Control —** Buttons for Play/Pause, Skip, 5-second Seek, Shuffle, and Repeat modes.
 * **Smart Behavior —** Automatically hides the player when no media is playing, when entering full-screen mode, or after a period of inactivity (idle).
+* **Audio Visualizer —** A real-time spectrum visualizer (WASAPI loopback + FFT) with multiple bar shapes (Stereo, Mountain, Mirror, Wave, Breathe), color modes (Solid, Dynamic Album, Gradient, Acrylic, Accent), EQ presets, vertical anchoring, and per-side placement.
 
 ### Advanced Customization:
 * **Visuals —** Customize fonts (Segoe UI, Aptos, etc.), text sizes, padding, and element transparency.
@@ -35,6 +36,10 @@
 * **Mouse Interactions —** Assign custom actions (Volume control, Track seeking, Session switching) to the mouse wheel, single clicks, or double clicks on different parts of the player.
 
 ---
+
+### Credits
+* **[Salyts](https://github.com/Salyts) —** Author of Taskbar Fluent Media Player.
+* **[GR0UD](https://github.com/GR0UD) —** Audio visualizer (capture + FFT engine) ported from his Taskbar Media Player.
 
 ### Report a Bug
 If you encounter any issues, bugs, or have suggestions for new features, please report them on the project's GitHub page:
@@ -642,6 +647,93 @@ If you encounter any issues, bugs, or have suggestions for new features, please 
   $name: Appearance Settings
   $name:ru-RU: Настройки внешнего вида
 
+- VisualizerSettings:
+  - vizEnabled: false
+    $name: Enable audio visualizer
+    $name:ru-RU: Включить аудиовизуализатор
+    $description: Real-time spectrum bars driven by the system audio output (WASAPI loopback + FFT).
+  - vizPosition: "right"
+    $name: Position
+    $name:ru-RU: Положение
+    $description: Which side of the player the bars sit on.
+    $options:
+      - "left": Left
+      - "right": Right
+  - vizShape: "stereo"
+    $name: Bar shape
+    $name:ru-RU: Форма столбиков
+    $options:
+      - "stereo": Stereo
+      - "mountain": Mountain
+      - "mirror": Mirror
+      - "wave": Wave
+      - "breathe": Breathe
+  - vizColorMode: "solid"
+    $name: Color mode
+    $name:ru-RU: Цветовой режим
+    $options:
+      - "solid": Solid
+      - "dynamic_album": Dynamic album color
+      - "dynamic_gradient": Dynamic gradient
+      - "custom_gradient": Custom gradient
+      - "acrylic": Acrylic
+  - vizColor: "255 255 255"
+    $name: Bar color (RGB)
+    $name:ru-RU: Цвет столбиков (RGB)
+    $description: Used by Solid and Acrylic modes. Use -1 -1 -1 for the system accent color, or -2 -2 -2 for the album color.
+  - vizAccentColor: false
+    $name: Solid mode follows accent color
+    $name:ru-RU: Сплошной режим использует цвет акцента
+  - vizDynamicColor: false
+    $name: Acrylic mode follows album color
+    $name:ru-RU: Акриловый режим использует цвет альбома
+  - vizColor1: "30 215 96"
+    $name: Gradient color 1 (RGB)
+    $name:ru-RU: Цвет градиента 1 (RGB)
+  - vizColor2: "0 180 255"
+    $name: Gradient color 2 (RGB)
+    $name:ru-RU: Цвет градиента 2 (RGB)
+  - vizEQ: "default"
+    $name: EQ preset
+    $name:ru-RU: Пресет эквалайзера
+    $options:
+      - "default": Balanced
+      - "bass": Bass
+      - "rock": Rock
+      - "pop": Pop
+      - "jazz": Jazz
+      - "electronic": Electronic
+  - vizAnchor: "middle"
+    $name: Vertical anchor
+    $name:ru-RU: Вертикальная привязка
+    $options:
+      - "top": Top
+      - "middle": Middle
+      - "bottom": Bottom
+  - vizBars: 7
+    $name: Bar count (1-20)
+    $name:ru-RU: Количество столбиков (1-20)
+  - vizBarWidth: 5
+    $name: Bar width (px)
+    $name:ru-RU: Ширина столбика (px)
+  - vizBarGap: 5
+    $name: Bar gap (px)
+    $name:ru-RU: Промежуток между столбиками (px)
+  - idleBarSize: 5
+    $name: Idle bar height (%)
+    $name:ru-RU: Высота столбиков в покое (%)
+  - vizSensitivity: 300
+    $name: Sensitivity (0-300)
+    $name:ru-RU: Чувствительность (0-300)
+  - vizPadLeft: 0
+    $name: Padding left (px)
+    $name:ru-RU: Отступ слева (px)
+  - vizPadRight: 0
+    $name: Padding right (px)
+    $name:ru-RU: Отступ справа (px)
+  $name: Visualizer Settings
+  $name:ru-RU: Настройки визуализатора
+
 - BehaviorSettings:
   - disableAlbumArtClick: false
     $name: Disable album art click (click through to player)
@@ -934,6 +1026,7 @@ If you encounter any issues, bugs, or have suggestions for new features, please 
 #include <audiopolicy.h>
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
+#include <audioclient.h>
 
 #include <propkey.h>
 
@@ -1075,6 +1168,51 @@ struct ModSettings {
     bool         disableAlbumArtClick    = false;
 };
 static ModSettings g_settings;
+
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║  AUDIO VISUALIZER MODULE                                                   ║
+// ║                                                                            ║
+// ║  Real-time spectrum visualizer ported from GR0UD's "Taskbar Media Player".║
+// ║  The original renders in Direct2D; here the audio engine is reused as-is   ║
+// ║  and only the drawing was rebuilt on XAML shapes to fit this mod.          ║
+// ║                                                                            ║
+// ║  Windhawk mods are a single translation unit, so the module is spread      ║
+// ║  across a few required spots rather than its own file:                     ║
+// ║    [1] Settings        — VizSettings struct + enums          (here)        ║
+// ║    [2] Settings load   — parsed inside LoadSettings()                      ║
+// ║    [3] Audio engine    — WASAPI loopback capture + FFT + peaks             ║
+// ║    [4] Rendering        — XAML bar shapes + per-frame update               ║
+// ║    [5] Animation timer  — DispatcherTimer driving the rendering            ║
+// ║    [6] Wiring           — built in BuildPlayerGrid(), run in *TimerThread  ║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+
+// ── [1] Visualizer settings ─────────────────────────────────────────────────
+enum class VizShape     { Stereo, Mountain, Mirror, Wave, Breathe };
+enum class VizColorMode { Solid, DynamicAlbum, DynamicGradient, CustomGradient, Acrylic };
+enum class VizEQ        { Default, Bass, Rock, Pop, Jazz, Electronic };
+enum class VizAnchor    { Top, Middle, Bottom };
+
+struct VizSettings {
+    bool         enabled      = false;
+    std::wstring position     = L"right";        // left | right
+    VizShape     shape        = VizShape::Stereo;
+    VizColorMode colorMode    = VizColorMode::Solid;
+    VizEQ        eq           = VizEQ::Default;
+    VizAnchor    anchor       = VizAnchor::Middle;
+    std::wstring color        = L"255 255 255";  // solid / acrylic base color
+    std::wstring color1       = L"30 215 96";    // custom gradient start
+    std::wstring color2       = L"0 180 255";    // custom gradient end
+    bool         accentColor  = false;           // solid follows accent
+    bool         dynamicColor = false;           // acrylic follows album color
+    int          bars         = 7;
+    int          barWidth     = 5;
+    int          barGap       = 5;
+    int          idleBarSize  = 15;              // percent
+    int          sensitivity  = 300;             // 0..300
+    int          padLeft      = 0;
+    int          padRight     = 0;
+};
+static VizSettings g_viz;
 
 enum class MediaButtonType {
     Previous = 1,
@@ -1292,6 +1430,50 @@ static void LoadSettings() {
     g_settings.titleColorOpacity    = Int(L"AppearanceSettings.TitleTextStyleSettings.titleColorOpacity", 0, 100, 100);
     g_settings.artistColor          = Str(L"AppearanceSettings.ArtistTextStyleSettings.artistColor", L"255 255 255");
     g_settings.artistColorOpacity   = Int(L"AppearanceSettings.ArtistTextStyleSettings.artistColorOpacity", 0, 100, 80);
+
+    // ── [2] Audio visualizer settings (see AUDIO VISUALIZER MODULE) ──────────
+    g_viz.enabled      = Wh_GetIntSetting(L"VisualizerSettings.vizEnabled") != 0;
+    g_viz.position     = Str(L"VisualizerSettings.vizPosition", L"right");
+    g_viz.color        = Str(L"VisualizerSettings.vizColor",  L"255 255 255");
+    g_viz.color1       = Str(L"VisualizerSettings.vizColor1", L"30 215 96");
+    g_viz.color2       = Str(L"VisualizerSettings.vizColor2", L"0 180 255");
+    g_viz.accentColor  = Wh_GetIntSetting(L"VisualizerSettings.vizAccentColor") != 0;
+    g_viz.dynamicColor = Wh_GetIntSetting(L"VisualizerSettings.vizDynamicColor") != 0;
+    g_viz.bars         = Int(L"VisualizerSettings.vizBars", 1, 20, 7);
+    g_viz.barWidth     = Int(L"VisualizerSettings.vizBarWidth", 1, 40, 5);
+    g_viz.barGap       = Int(L"VisualizerSettings.vizBarGap", 0, 40, 5);
+    g_viz.idleBarSize  = Int(L"VisualizerSettings.idleBarSize", 0, 100, 15);
+    g_viz.sensitivity  = Int(L"VisualizerSettings.vizSensitivity", 0, 300, 300);
+    g_viz.padLeft      = Int(L"VisualizerSettings.vizPadLeft", 0, 200, 0);
+    g_viz.padRight     = Int(L"VisualizerSettings.vizPadRight", 0, 200, 0);
+    {
+        std::wstring shape = Str(L"VisualizerSettings.vizShape", L"stereo");
+        g_viz.shape = (shape == L"mountain") ? VizShape::Mountain
+                    : (shape == L"mirror")   ? VizShape::Mirror
+                    : (shape == L"wave")     ? VizShape::Wave
+                    : (shape == L"breathe")  ? VizShape::Breathe
+                                             : VizShape::Stereo;
+
+        std::wstring mode = Str(L"VisualizerSettings.vizColorMode", L"solid");
+        g_viz.colorMode = (mode == L"dynamic_album")    ? VizColorMode::DynamicAlbum
+                        : (mode == L"dynamic_gradient") ? VizColorMode::DynamicGradient
+                        : (mode == L"custom_gradient")  ? VizColorMode::CustomGradient
+                        : (mode == L"acrylic")          ? VizColorMode::Acrylic
+                                                        : VizColorMode::Solid;
+
+        std::wstring eq = Str(L"VisualizerSettings.vizEQ", L"default");
+        g_viz.eq = (eq == L"bass")       ? VizEQ::Bass
+                 : (eq == L"rock")       ? VizEQ::Rock
+                 : (eq == L"pop")        ? VizEQ::Pop
+                 : (eq == L"jazz")       ? VizEQ::Jazz
+                 : (eq == L"electronic") ? VizEQ::Electronic
+                                         : VizEQ::Default;
+
+        std::wstring anchor = Str(L"VisualizerSettings.vizAnchor", L"middle");
+        g_viz.anchor = (anchor == L"top")    ? VizAnchor::Top
+                     : (anchor == L"bottom") ? VizAnchor::Bottom
+                                             : VizAnchor::Middle;
+    }
 
     for (int i = 0; i < 20; i++) {
         PCWSTR objectStr = Wh_GetStringSetting(L"BehaviorSettings.ClickActionSettings[%d].object", i);
@@ -3978,6 +4160,649 @@ static DWORD WINAPI TimerThreadProc(void*) {
     return 0;
 }
 
+// ── [3] Audio engine: WASAPI loopback capture + FFT + per-bar peaks ──────────
+//  Ported from GR0UD's "Taskbar Media Player". The capture, FFT and band/peak
+//  math below are his, unchanged except that they read g_viz instead of the
+//  original settings struct. Only the rendering ([4], below) was rebuilt on
+//  XAML shapes. (Part of the AUDIO VISUALIZER MODULE.)
+// ────────────────────────────────────────────────────────────────────────────
+
+static constexpr int   VIZ_BARS_MAX  = 20;
+static constexpr int   VIZ_FFT_SIZE  = 1024;
+static constexpr int   VIZ_NUM_BANDS = 7;
+static constexpr float VIZ_PI        = 3.14159265f;
+
+static std::atomic<float> g_VizBands[VIZ_NUM_BANDS] = {};
+static std::atomic<bool>  g_CaptureRunning{false};
+static std::thread        g_CaptureThread;
+static HANDLE             g_hCaptureEvent = nullptr;
+
+// Pre-baked tables
+static float g_HannWindow[VIZ_FFT_SIZE]     = {};
+static float g_TwiddleRe[VIZ_FFT_SIZE / 2]  = {};
+static float g_TwiddleIm[VIZ_FFT_SIZE / 2]  = {};
+static int   g_LogBinStart[VIZ_NUM_BANDS + 1] = {};
+
+static void BuildHannWindow() {
+    for (int i = 0; i < VIZ_FFT_SIZE; i++)
+        g_HannWindow[i] = 0.5f * (1.f - cosf(2.f * VIZ_PI * i / (VIZ_FFT_SIZE - 1)));
+}
+
+static void BuildTwiddleFactors() {
+    for (int i = 0; i < VIZ_FFT_SIZE / 2; i++) {
+        float ang = -2.0f * VIZ_PI * i / VIZ_FFT_SIZE;
+        g_TwiddleRe[i] = cosf(ang);
+        g_TwiddleIm[i] = sinf(ang);
+    }
+}
+
+static void BuildLogBins(UINT32 sampleRate) {
+    static constexpr float FREQ_EDGES[VIZ_NUM_BANDS + 1] = {
+        20.f, 120.f, 300.f, 800.f, 2500.f, 6000.f, 14000.f, 20000.f};
+    for (int b = 0; b <= VIZ_NUM_BANDS; b++) {
+        int bin = (int)(FREQ_EDGES[b] * VIZ_FFT_SIZE / (float)sampleRate);
+        g_LogBinStart[b] = std::max(1, std::min(VIZ_FFT_SIZE / 2 - 1, bin));
+    }
+}
+
+static void VizFFT(std::vector<float>& re, std::vector<float>& im) {
+    int n = (int)re.size();
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1)
+            j ^= bit;
+        j ^= bit;
+        if (i < j) {
+            std::swap(re[i], re[j]);
+            std::swap(im[i], im[j]);
+        }
+    }
+    for (int len = 2; len <= n; len <<= 1) {
+        int halfLen = len / 2;
+        int stride = n / len;
+        for (int i = 0; i < n; i += len) {
+            for (int j = 0; j < halfLen; j++) {
+                float wRe = g_TwiddleRe[j * stride];
+                float wIm = g_TwiddleIm[j * stride];
+                float uRe = re[i + j], uIm = im[i + j];
+                float vRe = re[i + j + halfLen] * wRe - im[i + j + halfLen] * wIm;
+                float vIm = re[i + j + halfLen] * wIm + im[i + j + halfLen] * wRe;
+                re[i + j] = uRe + vRe;
+                im[i + j] = uIm + vIm;
+                re[i + j + halfLen] = uRe - vRe;
+                im[i + j + halfLen] = uIm - vIm;
+            }
+        }
+    }
+}
+
+// EQ multipliers shared between capture thread and UpdateVisualizerPeaks.
+struct VizEQMul { float low, mid, high; };
+static VizEQMul GetVizEQMultipliers(VizEQ eq) {
+    switch (eq) {
+        case VizEQ::Bass:       return {2.0f, 0.6f, 0.4f};
+        case VizEQ::Rock:       return {1.3f, 1.5f, 1.2f};
+        case VizEQ::Pop:        return {0.8f, 1.2f, 1.8f};
+        case VizEQ::Jazz:       return {1.1f, 0.8f, 0.6f};
+        case VizEQ::Electronic: return {1.7f, 0.6f, 1.7f};
+        default:                return {1.0f, 1.0f, 1.0f};
+    }
+}
+
+static void VizCaptureThreadProc() {
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    BuildHannWindow();
+    BuildTwiddleFactors();
+
+    winrt::com_ptr<IMMDeviceEnumerator> pEnum;
+    if (FAILED(CoCreateInstance(XIID_MMDeviceEnumerator, nullptr, CLSCTX_ALL,
+                                XIID_IMMDeviceEnumerator, pEnum.put_void()))) {
+        g_CaptureRunning.store(false);
+        CoUninitialize();
+        return;
+    }
+
+    winrt::com_ptr<IMMDevice> pDev;
+    if (FAILED(pEnum->GetDefaultAudioEndpoint(eRender, eConsole, pDev.put()))) {
+        g_CaptureRunning.store(false);
+        CoUninitialize();
+        return;
+    }
+
+    winrt::com_ptr<IAudioClient> pClient;
+    winrt::com_ptr<IAudioCaptureClient> pCapture;
+    UINT32 sampleRate = 48000, channels = 2;
+    bool isFloat = true;
+
+    {
+        winrt::com_ptr<IAudioClient> pC;
+        if (SUCCEEDED(pDev->Activate(__uuidof(IAudioClient), CLSCTX_ALL, nullptr,
+                                     pC.put_void()))) {
+            WAVEFORMATEX* pwfx = nullptr;
+            pC->GetMixFormat(&pwfx);
+            if (pwfx) {
+                sampleRate = pwfx->nSamplesPerSec;
+                channels = pwfx->nChannels;
+                isFloat =
+                    (pwfx->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) ||
+                    (pwfx->wFormatTag == WAVE_FORMAT_EXTENSIBLE &&
+                     reinterpret_cast<WAVEFORMATEXTENSIBLE*>(pwfx)->SubFormat ==
+                         KSDATAFORMAT_SUBTYPE_IEEE_FLOAT);
+                if (SUCCEEDED(pC->Initialize(
+                        AUDCLNT_SHAREMODE_SHARED,
+                        AUDCLNT_STREAMFLAGS_LOOPBACK |
+                            AUDCLNT_STREAMFLAGS_EVENTCALLBACK,
+                        200000, 0, pwfx, nullptr))) {
+                    if (g_hCaptureEvent)
+                        pC->SetEventHandle(g_hCaptureEvent);
+                    winrt::com_ptr<IAudioCaptureClient> pCap;
+                    if (SUCCEEDED(pC->GetService(__uuidof(IAudioCaptureClient),
+                                                 pCap.put_void()))) {
+                        pClient = pC;
+                        pCapture = pCap;
+                    }
+                }
+                CoTaskMemFree(pwfx);
+            }
+        }
+    }
+
+    BuildLogBins(sampleRate);
+
+    static constexpr int RING_CAP = VIZ_FFT_SIZE * 4;
+    std::vector<float> ringBuf(RING_CAP, 0.f);
+    int ringHead = 0, ringCount = 0;
+    std::vector<float> re(VIZ_FFT_SIZE), im(VIZ_FFT_SIZE);
+
+    float bandEnv[VIZ_NUM_BANDS] = {};
+    static constexpr float GRAVITY[VIZ_NUM_BANDS] = {0.018f, 0.020f, 0.022f, 0.025f,
+                                                     0.030f, 0.036f, 0.042f};
+
+    if (pClient)
+        pClient->Start();
+
+    while (g_CaptureRunning.load(std::memory_order_relaxed)) {
+        if (g_hCaptureEvent)
+            WaitForSingleObject(g_hCaptureEvent, 20);
+        else
+            Sleep(8);
+
+        if (!pCapture)
+            continue;
+
+        UINT32 packetSize = 0;
+        if (FAILED(pCapture->GetNextPacketSize(&packetSize)) || packetSize == 0) {
+            for (int b = 0; b < VIZ_NUM_BANDS; b++) {
+                bandEnv[b] = std::max(0.f, bandEnv[b] - GRAVITY[b]);
+                g_VizBands[b].store(bandEnv[b], std::memory_order_relaxed);
+            }
+            continue;
+        }
+
+        while (packetSize > 0) {
+            BYTE* pData = nullptr;
+            UINT32 numFrames = 0;
+            DWORD flags = 0;
+            if (FAILED(pCapture->GetBuffer(&pData, &numFrames, &flags, nullptr,
+                                           nullptr)))
+                break;
+
+            if (!(flags & AUDCLNT_BUFFERFLAGS_SILENT) && pData && numFrames > 0) {
+                if (isFloat) {
+                    float* src = reinterpret_cast<float*>(pData);
+                    for (UINT32 f = 0; f < numFrames; f++) {
+                        float mono = 0.f;
+                        for (UINT32 c = 0; c < channels; c++)
+                            mono += src[f * channels + c];
+                        ringBuf[ringHead] = mono / (float)channels;
+                        ringHead = (ringHead + 1) % RING_CAP;
+                        if (ringCount < RING_CAP)
+                            ringCount++;
+                    }
+                } else {
+                    INT16* src = reinterpret_cast<INT16*>(pData);
+                    for (UINT32 f = 0; f < numFrames; f++) {
+                        float mono = 0.f;
+                        for (UINT32 c = 0; c < channels; c++)
+                            mono += src[f * channels + c] / 32768.f;
+                        ringBuf[ringHead] = mono / (float)channels;
+                        ringHead = (ringHead + 1) % RING_CAP;
+                        if (ringCount < RING_CAP)
+                            ringCount++;
+                    }
+                }
+            }
+            pCapture->ReleaseBuffer(numFrames);
+            if (FAILED(pCapture->GetNextPacketSize(&packetSize)))
+                break;
+        }
+
+        while (ringCount >= VIZ_FFT_SIZE) {
+            int readStart = (ringHead - ringCount + RING_CAP) % RING_CAP;
+            for (int i = 0; i < VIZ_FFT_SIZE; i++) {
+                re[i] = ringBuf[(readStart + i) % RING_CAP] * g_HannWindow[i];
+                im[i] = 0.f;
+            }
+            ringCount -= VIZ_FFT_SIZE / 2;
+            VizFFT(re, im);
+
+            float t_sens = g_viz.sensitivity / 100.0f;  // 0..3
+            float sliderGain = (t_sens <= 1.0f)
+                ? 0.25f + t_sens * t_sens * 2.75f
+                : 3.0f + (t_sens - 1.0f) * 4.0f;
+            auto eq = GetVizEQMultipliers(g_viz.eq);
+
+            static constexpr float BAND_SENSITIVITY[VIZ_NUM_BANDS] = {
+                0.30f, 0.22f, 0.12f, 0.06f, 0.030f, 0.018f, 0.010f};
+            static constexpr int BAND_EQ_ZONE[VIZ_NUM_BANDS] = {0, 0, 1, 1, 2, 2, 2};
+
+            for (int b = 0; b < VIZ_NUM_BANDS; b++) {
+                int bStart = g_LogBinStart[b];
+                int bEnd = g_LogBinStart[b + 1];
+                if (bEnd <= bStart)
+                    bEnd = bStart + 1;
+
+                float sumSq = 0.f;
+                int count = 0;
+                for (int k = bStart; k < bEnd; k++) {
+                    sumSq += re[k] * re[k] + im[k] * im[k];
+                    count++;
+                }
+                float rms = (count > 0) ? sqrtf(sumSq / (float)count) : 0.f;
+                float eqM = (BAND_EQ_ZONE[b] == 0)   ? eq.low
+                            : (BAND_EQ_ZONE[b] == 1) ? eq.mid
+                                                     : eq.high;
+                float mag = std::max(
+                    0.f, std::min(1.f, (rms / (VIZ_FFT_SIZE * 0.5f)) /
+                                           BAND_SENSITIVITY[b] * sliderGain * eqM));
+
+                bandEnv[b] = (mag >= bandEnv[b])
+                                 ? mag
+                                 : std::max(0.f, bandEnv[b] - GRAVITY[b]);
+                g_VizBands[b].store(bandEnv[b], std::memory_order_relaxed);
+            }
+        }
+    }
+
+    if (pClient)
+        pClient->Stop();
+    CoUninitialize();
+}
+
+static void StartVizCaptureThread() {
+    if (g_CaptureRunning.load())
+        return;
+    if (g_CaptureThread.joinable())
+        g_CaptureThread.join();
+    if (!g_hCaptureEvent)
+        g_hCaptureEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+    g_CaptureRunning.store(true);
+    g_CaptureThread = std::thread(VizCaptureThreadProc);
+}
+
+static void StopVizCaptureThread() {
+    g_CaptureRunning.store(false);
+    if (g_hCaptureEvent)
+        SetEvent(g_hCaptureEvent);
+    if (g_CaptureThread.joinable())
+        g_CaptureThread.join();
+    if (g_hCaptureEvent) {
+        CloseHandle(g_hCaptureEvent);
+        g_hCaptureEvent = nullptr;
+    }
+    for (int i = 0; i < VIZ_NUM_BANDS; i++)
+        g_VizBands[i].store(0.f);
+}
+
+// ── Per-bar targets (smoothed band energy shaped per Bar Shape) ─────────────
+static float g_VizPeak[VIZ_BARS_MAX]   = {};
+static float g_VizTarget[VIZ_BARS_MAX] = {};
+static float g_VizBreatheEnv = 0.f;
+
+static constexpr float VIZ_SEEDS[VIZ_BARS_MAX] = {
+    0.83f, 0.41f, 1.27f, 0.61f, 1.09f, 0.37f, 0.95f, 0.52f, 1.18f, 0.74f,
+    0.29f, 1.03f, 0.66f, 0.88f, 0.45f, 1.21f, 0.57f, 0.93f, 0.31f, 1.15f};
+
+static void UpdateVisualizerPeaks() {
+    const int vizBars = std::max(1, std::min(g_viz.bars, VIZ_BARS_MAX));
+
+    float bands[VIZ_NUM_BANDS];
+    float masterPeak = 0.f;
+    for (int i = 0; i < VIZ_NUM_BANDS; i++) {
+        bands[i] = g_VizBands[i].load(std::memory_order_relaxed);
+        masterPeak = std::max(masterPeak, bands[i]);
+    }
+
+    auto eq = GetVizEQMultipliers(g_viz.eq);
+
+    auto sampleBands = [&](float t) -> float {
+        float pos = t * (VIZ_NUM_BANDS - 1);
+        int lo = (int)pos;
+        int hi = std::min(lo + 1, VIZ_NUM_BANDS - 1);
+        return bands[lo] * (1.f - (pos - (float)lo)) +
+               bands[hi] * (pos - (float)lo);
+    };
+
+    auto eqForT = [&](float t) -> float {
+        return (t < 0.33f) ? eq.low : (t < 0.66f) ? eq.mid : eq.high;
+    };
+
+    float t = (float)GetTickCount64() * 0.001f;
+    float center = (vizBars - 1) * 0.5f;
+    float idleFloor = g_viz.idleBarSize / 100.0f;
+
+    for (int i = 0; i < vizBars; i++) {
+        float freqT = (vizBars > 1) ? (float)i / (float)(vizBars - 1) : 0.5f;
+        float target = 0.f;
+
+        switch (g_viz.shape) {
+            case VizShape::Stereo:
+                target = sampleBands(freqT) * eqForT(freqT);
+                break;
+
+            case VizShape::Mountain: {
+                float dist = fabsf((float)i - center) / std::max(1.f, center);
+                float energy = sampleBands(dist) * eqForT(dist);
+                float taper = 1.6f - dist * 0.9f;
+                target = std::max(
+                    0.f, std::min(1.f, (energy + masterPeak * (0.2f - dist * 0.12f)) *
+                                           taper));
+                break;
+            }
+
+            case VizShape::Mirror: {
+                float mirT = 1.f - fabsf((float)i - center) / std::max(1.f, center);
+                float energy = sampleBands(mirT) * eqForT(mirT);
+                target = std::max(
+                    0.f, std::min(1.f, (energy + masterPeak * (0.1f + mirT * 0.12f)) *
+                                           1.3f));
+                break;
+            }
+
+            case VizShape::Wave: {
+                float phase = (float)i * (2.f * VIZ_PI / (float)vizBars);
+                float wave = 0.55f + 0.45f * sinf(t * 3.5f - phase);
+                float energy = sampleBands(freqT) * eqForT(freqT);
+                target = std::max(0.f, std::min(1.f, energy * wave + masterPeak * 0.15f));
+                break;
+            }
+
+            case VizShape::Breathe: {
+                if (i == 0) {
+                    float k = (masterPeak > g_VizBreatheEnv) ? 0.04f : 0.015f;
+                    g_VizBreatheEnv += (masterPeak - g_VizBreatheEnv) * k;
+                }
+                float rate = 0.55f + VIZ_SEEDS[i % VIZ_BARS_MAX] * 0.18f;
+                float inhale =
+                    0.5f + 0.5f * sinf(t * rate + VIZ_SEEDS[i % VIZ_BARS_MAX] * 1.2f);
+                target = std::max(0.f, std::min(1.f,
+                                                inhale * (0.12f + g_VizBreatheEnv * 0.88f)));
+                break;
+            }
+        }
+
+        g_VizTarget[i] = std::max(idleFloor, std::min(1.f, target));
+    }
+}
+
+// ── [4] Rendering: ease each bar and write height + color into XAML shapes ───
+//  (Part of the AUDIO VISUALIZER MODULE.)
+// ────────────────────────────────────────────────────────────────────────────
+using VizRect = winrt::Windows::UI::Xaml::Shapes::Rectangle;
+static std::vector<VizRect>         g_vizBars;
+static std::vector<SolidColorBrush> g_vizBrushes;
+
+static winrt::Windows::UI::Color VizLerpColor(winrt::Windows::UI::Color a,
+                                              winrt::Windows::UI::Color b, float t) {
+    auto L = [](BYTE x, BYTE y, float tt) -> BYTE {
+        return (BYTE)((int)x + (int)((float)((int)y - (int)x) * tt));
+    };
+    return winrt::Windows::UI::Color{255, L(a.R, b.R, t), L(a.G, b.G, t), L(a.B, b.B, t)};
+}
+
+// Height of the visualizer zone — matched to the tallest *visible section*
+// (album art / buttons), not the full player height, so the container lines up
+// with the other sections instead of overflowing past the top and bottom.
+// Used by both the container build and the per-frame bar heights so they agree.
+static double VizZoneHeight() {
+    double h = 0.0;
+    if (g_settings.showAlbumArt && g_settings.albumArtMaxHeight > 0)
+        h = std::max(h, (double)g_settings.albumArtMaxHeight);
+    if (g_settings.showMediaButtons)
+        h = std::max(h, (double)g_settings.buttonSize);
+    if (h <= 0.0)
+        h = (g_settings.playerMaxHeight > 0 ? (double)g_settings.playerMaxHeight : 40.0);
+    if (g_settings.playerMaxHeight > 0)
+        h = std::min(h, (double)g_settings.playerMaxHeight);
+    return h;
+}
+
+// Eases each bar toward its target and writes height + color into the XAML
+// rectangles. Mirrors GR0UD's IDT_VIZ attack/decay + DrawVisualizerBars color
+// modes; runs on the UI thread from the dispatcher timer.
+static void VizApplyFrame() {
+    if (!g_viz.enabled || g_vizBars.empty())
+        return;
+
+    UpdateVisualizerPeaks();
+
+    float attack = 0.55f, decay = 0.18f;
+    float sensBoost = std::max(0.f, (g_viz.sensitivity - 100) / 200.f) * 0.12f;
+    switch (g_viz.shape) {
+        case VizShape::Stereo:  attack = 0.72f; decay = 0.22f + sensBoost; break;
+        case VizShape::Mirror:  attack = 0.52f; decay = 0.20f + sensBoost; break;
+        case VizShape::Wave:    attack = 0.34f; decay = 0.17f + sensBoost; break;
+        case VizShape::Breathe: attack = 0.20f; decay = 0.11f + sensBoost; break;
+        default:                decay += sensBoost; break;
+    }
+
+    int barCount = std::min((int)g_vizBars.size(), std::max(1, g_viz.bars));
+    double zoneH = VizZoneHeight();
+    double maxBH = std::max(4.0, zoneH - 6.0);
+    double minBH = std::max((double)g_viz.barWidth, 3.0);
+    float  idleH = g_viz.idleBarSize / 100.f;
+
+    // Base color for Solid / Dynamic Album modes (computed once per frame).
+    winrt::Windows::UI::Color baseCol{255, 255, 255, 255};
+    if (g_viz.colorMode == VizColorMode::Solid && g_viz.accentColor) {
+        DWORD ac = GetWindowsAccentColor();
+        baseCol = {255, (BYTE)((ac >> 16) & 0xFF), (BYTE)((ac >> 8) & 0xFF),
+                   (BYTE)(ac & 0xFF)};
+    } else if (g_viz.colorMode == VizColorMode::DynamicAlbum) {
+        baseCol = g_cachedAlbumPalette.primary;
+        baseCol.A = 255;
+    } else {
+        bool isDefault = (g_viz.color == L"255 255 255" || g_viz.color == L"0 0 0");
+        if (g_viz.colorMode == VizColorMode::Solid && g_settings.autoTheme && isDefault) {
+            // Follow system: dark bars on light mode, white bars on dark mode.
+            BYTE v = IsSystemLightTheme() ? 0x1a : 0xFF;
+            baseCol = {255, v, v, v};
+        } else {
+            baseCol = ParseColorWithSpecialValues(g_viz.color, 255);
+        }
+    }
+
+    auto pal0   = g_cachedAlbumPalette.primary;
+    auto pal1   = g_cachedAlbumPalette.secondary;
+    auto cg0    = ParseColorWithSpecialValues(g_viz.color1, 255);
+    auto cg1    = ParseColorWithSpecialValues(g_viz.color2, 255);
+    auto acrCol = g_viz.dynamicColor ? g_cachedAlbumPalette.primary
+                                     : ParseColorWithSpecialValues(g_viz.color, 255);
+
+    for (int i = 0; i < barCount; i++) {
+        float tgt = g_VizTarget[i], cur = g_VizPeak[i];
+        float a = attack, d = decay;
+
+        if (g_viz.shape == VizShape::Mountain) {
+            float dist = fabsf((float)i - ((barCount - 1) * 0.5f));
+            if (dist < 0.5f)      { a = 0.85f; d = 0.26f + sensBoost; }
+            else if (dist < 1.5f) { a = 0.62f; d = 0.20f + sensBoost; }
+            else                  { a = 0.92f; d = 0.34f + sensBoost; }
+        }
+
+        float next = cur + (tgt - cur) * ((tgt > cur) ? a : d);
+        g_VizPeak[i] = (fabsf(next - cur) > 0.0005f) ? next : tgt;
+
+        float  fac = std::max(idleH, g_VizPeak[i]);
+        double bh = minBH + fac * (maxBH - minBH);
+
+        winrt::Windows::UI::Color c = baseCol;
+        if (g_viz.colorMode == VizColorMode::DynamicGradient) {
+            float t = (float)i / std::max(1, barCount - 1);
+            float freqT = std::min(1.f, t * 0.6f + fac * 0.4f);
+            c = VizLerpColor(pal0, pal1, freqT);
+        } else if (g_viz.colorMode == VizColorMode::CustomGradient) {
+            float t = (barCount > 1) ? (float)i / (barCount - 1) : 0.f;
+            c = VizLerpColor(cg0, cg1, t);
+        } else if (g_viz.colorMode == VizColorMode::Acrylic) {
+            BYTE aa = (BYTE)std::max(30, std::min(180, (int)(150.f * fac + 30.f)));
+            c = winrt::Windows::UI::Color{aa, acrCol.R, acrCol.G, acrCol.B};
+        }
+
+        try {
+            g_vizBars[i].Height(bh);
+            if (i < (int)g_vizBrushes.size() && g_vizBrushes[i])
+                g_vizBrushes[i].Color(c);
+        } catch (...) {}
+    }
+}
+
+// ── [5] Animation timer: 60 fps DispatcherTimer driving VizApplyFrame ────────
+//  (Part of the AUDIO VISUALIZER MODULE. Started/stopped in Start/StopTimerThread.)
+static winrt::Windows::UI::Xaml::DispatcherTimer g_vizDispatcherTimer{nullptr};
+static winrt::event_token                        g_vizDispatcherTimerToken{};
+static bool                                       g_vizDispatcherTimerHasToken = false;
+
+static void VizTimerTick(winrt::Windows::Foundation::IInspectable const&,
+                         winrt::Windows::Foundation::IInspectable const&) {
+    if (g_unloading || g_applyingSettings) return;
+    if (!g_viz.enabled) return;
+    VizApplyFrame();
+}
+
+static void StartVizTimer() {
+    HWND hWnd = g_taskbarWnd;
+    if (!hWnd || !IsWindow(hWnd)) return;
+
+    RunFromWindowThread(hWnd, [](void*) {
+        try {
+            if (!g_vizDispatcherTimer) {
+                g_vizDispatcherTimer = winrt::Windows::UI::Xaml::DispatcherTimer();
+                g_vizDispatcherTimer.Interval(
+                    winrt::Windows::Foundation::TimeSpan{std::chrono::milliseconds(16)});
+                g_vizDispatcherTimerToken = g_vizDispatcherTimer.Tick(&VizTimerTick);
+                g_vizDispatcherTimerHasToken = true;
+            }
+            g_vizDispatcherTimer.Start();
+        } catch (...) {}
+    }, nullptr);
+}
+
+static void StopVizTimer() {
+    HWND hWnd = g_taskbarWnd;
+
+    auto stop = [](void*) {
+        try {
+            if (g_vizDispatcherTimer) {
+                g_vizDispatcherTimer.Stop();
+                if (g_unloading) {
+                    if (g_vizDispatcherTimerHasToken) {
+                        g_vizDispatcherTimer.Tick(g_vizDispatcherTimerToken);
+                        g_vizDispatcherTimerHasToken = false;
+                    }
+                    g_vizDispatcherTimer = nullptr;
+                }
+            }
+        } catch (...) {}
+    };
+
+    if (hWnd && IsWindow(hWnd)) {
+        RunFromWindowThread(hWnd, stop, nullptr);
+    } else {
+        stop(nullptr);
+    }
+}
+
+// ── [6] Wiring: build the bar row (called from BuildPlayerGrid) ──────────────
+//  Caches the rectangles (+ fill brushes) for the timer. Cleared and rebuilt on
+//  every player rebuild. (Part of the AUDIO VISUALIZER MODULE.)
+static FrameworkElement BuildVisualizerElement() {
+    g_vizBars.clear();
+    g_vizBrushes.clear();
+
+    int barCount = std::clamp(g_viz.bars, 1, VIZ_BARS_MAX);
+    double zoneH = VizZoneHeight();   // match the tallest section, not the player
+
+    // The bar row itself.
+    StackPanel bars;
+    bars.Name(L"FluentMedia_VisualizerBars");
+    bars.Orientation(Orientation::Horizontal);
+    bars.Height(zoneH);
+    bars.VerticalAlignment(VerticalAlignment::Center);
+    bars.HorizontalAlignment(HorizontalAlignment::Center);
+    bars.IsHitTestVisible(false);
+
+    VerticalAlignment va = (g_viz.anchor == VizAnchor::Top)    ? VerticalAlignment::Top
+                         : (g_viz.anchor == VizAnchor::Bottom) ? VerticalAlignment::Bottom
+                                                               : VerticalAlignment::Center;
+
+    double minBH   = std::max((double)g_viz.barWidth, 3.0);
+    double corner  = std::max(1.0, g_viz.barWidth * 0.5);
+
+    for (int i = 0; i < barCount; i++) {
+        VizRect r;
+        r.Width((double)g_viz.barWidth);
+        r.Height(minBH);
+        r.RadiusX(corner);
+        r.RadiusY(corner);
+        r.VerticalAlignment(va);
+        if (i > 0)
+            r.Margin({(double)g_viz.barGap, 0, 0, 0});
+
+        SolidColorBrush br = MakeBrush({255, 255, 255, 255});
+        r.Fill(br);
+        if (g_viz.colorMode == VizColorMode::Acrylic) {
+            r.Stroke(MakeBrush({0x40, 0xFF, 0xFF, 0xFF}));
+            r.StrokeThickness(0.8);
+        }
+
+        bars.Children().Append(r);
+        g_vizBars.push_back(r);
+        g_vizBrushes.push_back(br);
+    }
+
+    // Its own container, mirroring artContainer / textContainer / ctrlPanel so
+    // the visualizer is a proper section of the player rather than loose bars.
+    // It hugs the bars (Auto width via Center alignment) and keeps a gap on the
+    // side that faces the rest of the player, like the other sections do.
+    bool vizLeft = (g_viz.position == L"left");
+    if (g_settings.mirrorLayout) vizLeft = !vizLeft;   // matches column placement
+    const double kVizSectionGap = 6.0;                 // gap between sections
+    double marginL = (double)g_viz.padLeft  + (vizLeft ? 0.0 : kVizSectionGap);
+    double marginR = (double)g_viz.padRight + (vizLeft ? kVizSectionGap : 0.0);
+
+    Grid vizContainer;
+    vizContainer.Name(L"FluentMedia_Visualizer");
+    vizContainer.Height(zoneH);
+    vizContainer.VerticalAlignment(VerticalAlignment::Center);
+    vizContainer.HorizontalAlignment(HorizontalAlignment::Center);
+    vizContainer.IsHitTestVisible(false);
+    vizContainer.Background(MakeBrush({0x00, 0x00, 0x00, 0x00}));
+    vizContainer.Margin({marginL, 0, marginR, 0});
+
+    if (g_settings.showDebugBorders) {
+        Border vizDebugBorder;
+        vizDebugBorder.BorderBrush(MakeBrush({0xFF, 0xFF, 0xFF, 0x00}));  // yellow
+        vizDebugBorder.BorderThickness({1, 1, 1, 1});
+        vizDebugBorder.HorizontalAlignment(HorizontalAlignment::Stretch);
+        vizDebugBorder.VerticalAlignment(VerticalAlignment::Stretch);
+        vizContainer.Children().Append(vizDebugBorder);
+    }
+
+    vizContainer.Children().Append(bars);
+    return vizContainer;
+}
+
 static void StartTimerThread() {
     if (g_timerThread) return;
     g_timerStopEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
@@ -3993,9 +4818,18 @@ static void StartTimerThread() {
     if (g_settings.enableTitleScrolling || g_settings.enableArtistScrolling) {
         StartScrollTimer();
     }
+
+    // [6] Audio visualizer: spin up the capture thread + animation timer.
+    if (g_viz.enabled) {
+        StartVizCaptureThread();
+        StartVizTimer();
+    }
 }
 static void StopTimerThread() {
     StopScrollTimer();
+    // [6] Audio visualizer: tear down the animation timer + capture thread.
+    StopVizTimer();
+    StopVizCaptureThread();
     if (g_timerStopEvent) SetEvent(g_timerStopEvent);
     if (g_timerThread) {
         DWORD tid = GetCurrentThreadId();
@@ -4404,6 +5238,11 @@ static void AddLayoutAnchorOverlay(Grid const& target, const wchar_t* name, winr
 
 static Grid BuildPlayerGrid() {
     try {
+        // Drop stale bar references from a previous build; repopulated below if
+        // the visualizer is enabled. (Timer is stopped during rebuild.)
+        g_vizBars.clear();
+        g_vizBrushes.clear();
+
         auto textClr = TextColor();
         auto artistClr = ArtistColor();
         auto buttonClr = ButtonColor();
@@ -5099,6 +5938,35 @@ static Grid BuildPlayerGrid() {
 
             if (hasButtons) {
                 panel.Children().Append(ctrlPanel);
+            }
+        }
+
+        // [6] Audio visualizer: its own Auto column at the chosen end of the grid.
+        if (g_viz.enabled) {
+            try {
+                auto vizEl = BuildVisualizerElement();
+                if (vizEl) {
+                    bool left = (g_viz.position == L"left");
+                    if (g_settings.mirrorLayout) left = !left;  // mirror flips sides
+
+                    ColumnDefinition vcol;
+                    vcol.Width({1.0, GridUnitType::Auto});
+                    if (left) {
+                        panel.ColumnDefinitions().InsertAt(0, vcol);
+                        auto kids = panel.Children();
+                        for (uint32_t k = 0; k < kids.Size(); k++) {
+                            if (auto fe = kids.GetAt(k).try_as<FrameworkElement>())
+                                Grid::SetColumn(fe, Grid::GetColumn(fe) + 1);
+                        }
+                        Grid::SetColumn(vizEl, 0);
+                    } else {
+                        panel.ColumnDefinitions().Append(vcol);
+                        Grid::SetColumn(vizEl, (int)panel.ColumnDefinitions().Size() - 1);
+                    }
+                    panel.Children().Append(vizEl);
+                }
+            } catch (...) {
+                Wh_Log(L"BuildPlayerGrid: Exception adding inline visualizer");
             }
         }
 
