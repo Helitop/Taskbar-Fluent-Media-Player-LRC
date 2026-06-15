@@ -37,7 +37,7 @@
 If you encounter any issues, bugs, or have suggestions for new features, please report them on the project's GitHub page:
 👉 **[Report an Issue on GitHub](https://github.com/Salyts/Taskbar-Fluent-Media-Player/issues)**
 
-Author - [@Salyts](https://github.com/Salyts)
+Authors - [@Salyts](https://github.com/Salyts) & [@GR0UD](https://github.com/GR0UD)
 
 ## License
 
